@@ -1,0 +1,32 @@
+country,Orig_ID,net_name.washes,comparison,species,n_total,n_dead_24h,nights_collect,n_total_PYRNET,n_dead_24h_PYRNET,nights_collect_PYRNET,Hut,plot_code,data_visible
+Cove_Benin,7,PermaNet 3.0,PermaNet 2.0,An. gambiae s.l.,224,55,36,249,27,36,West,0,1
+Cove_Benin,7,Olyset Plus,Olyset Net,An. gambiae s.l.,317,27,36,371,25,36,West,0,1
+Malanville_Benin,14,PermaNet 3.0,PermaNet 2.0,An. gambiae s.s.,214,207,72,243,216,72,West,0,1
+VDK_BurkinaFaso,15,PermaNet 3.0,PermaNet 2.0,An. gambiae s.s.,463,362,36,329,146,36,West,0,1
+Pitoa_Cameroon,16,PermaNet 3.0,PermaNet 2.0,An. gambiae s.l.,146,137,36,105,87,36,West,0,1
+Kolokope_Togo,20,PermaNet 3.0,Yorkool,An. gambiae s.l.,310,257,98,389,224,98,West,0,1
+Kolokope_Togo,20,Olyset Plus,Yorkool,An. gambiae s.l.,304,215,98,389,224,98,West,0,1
+Yaokoffikro_Cotedivoire,23,PermaNet 3.0,PermaNet 2.0,An. gambiae s.s.,303,166,360,317,110,360,West,0,1
+Mabogini_Tanzania,24,PermaNet 3.0,PermaNet 2.0,An. gambiae s.l.,16,8,25,10,6,25,East,0,1
+Magugu_Tanzania,25,PermaNet 3.0,DuraNet,An. gambiae s.l.,241,10,30,84,10,30,East,0,1
+Akron_Benin,35,PermaNet 3.0,PermaNet 2.0,An. coluzzii,128,67,56,114,50,56,West,0,1
+Malanville_Benin,59,Olyset Plus,Olyset Net,An. gambiae s.l.,67,54,72,96,40,72,West,0,1
+VDK_BurkinaFaso,64,Olyset Plus,Olyset Net,An. gambiae s.l.,1278,685,36,1458,454,36,West,0,1
+VDK_BurkinaFaso,64,PermaNet 3.0,PermaNet 2.0,An. gambiae s.l.,657,414,36,1075,384,36,West,0,1
+Tengrela_BurkinaFaso,65,Olyset Plus,Olyset Net,An. gambiae s.l.,695,196,36,922,179,36,West,0,1
+Tengrela_BurkinaFaso,65,PermaNet 3.0,PermaNet 2.0,An. gambiae s.l.,795,371,36,859,173,36,West,0,1
+An. gambiae s.s.,66,PermaNet 3.0,PermaNet 2.0,An. gambiae s.s.,425,407,54,574,548,54,East,0,1
+VDK_BurkinaFaso,73,DawaPlus 3.0,DawaPlus 2.0,An. coluzzii,146,32,63,146,22,63,West,0,1
+VDK_BurkinaFaso,73,Dawaplus 4.0,DawaPlus 2.0,An. coluzzii,146,63,63,146,22,63,West,0,1
+Muheza_Tanzania,74,DawaPlus 3.0,DawaPlus 2.0,An. funestus,146,39,63,146,26,63,West,0,1
+Muheza_Tanzania,74,DawaPlus 4.0,DawaPlus 2.0,An. funestus,146,36,63,146,26,63,West,0,1
+Mbe_Cotedivoire,75,Veeralin,MAGNet,An. gambiae s.l.,366,186,,506,,147,West,0,1
+Lupiro_Tanzania,76,Veeralin,MAGNet,An. arabiensis,722,103,25,1070,97,25,Ifakara,0,1
+Lupiro_Tanzania,76,Veeralin,MAGNet,An. funestus,89,6,25,113,8,25,Ifakara,0,1
+Muheza_Tanzania,94,Olyset Plus,Olyset Net,An. gambiae s.s.,44,43,72,13,13,72,East,0,1
+Nigeria_NewBussa,116,PermaNet 3.0,Olyset Net,An. gambiae s.s.,344,252,36,368,144,36,West,0,1
+Tengrela_BurkinaFaso,137,PermaNet 3.0,PermaNet 2.0,An. gambiae s.l.,501,246,41,548,150,41,West,0,1
+Tiefora_BurkinaFaso,138,PermaNet 3.0,Interceptor,An. gambiae s.l.,82,31,34,106,26,36,West,0,1
+Cove_Benin,140,PermaNet 3.0,Olyset Net,An. gambiae s.l.,426,187,49,937,206,49,West,0,1
+Cove_Benin,140,Olyset Plus,Olyset Net,An. gambiae s.l.,607,194,49,937,206,49,West,0,1
+Cove_Benin,140,Olyset Plus,Olyset Net,An. gambiae s.l.,1089,305,49,1226,172,49,West,0,1

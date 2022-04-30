@@ -1,0 +1,23 @@
+## BIOASSAY MORTALITY DATA
+For association between susc assacy and hut mort in pyrethroid only nets
+
+Data from Rebecca Nash for the mortality ~ mortality association
+Saved as csv: mortality_data_from_Nash2021.csv
+Citation: Nash et al. 2021
+
+## MORTALITY DATA
+For association between mort in pyrethroid only and next gen nets
+
+# pyrethroid-pyrrole (Interceptor G2, Phantom SC + Fendona SC, PermaNetP191)
+pyrethroid-pyrrole nets April 2022.csv
+
+# pyrethroid-pbo
+pyrethroid-pbo nets April 2022.csv
+
+
+## EXPT HUT DATA 
+For mort with deterrence, feeding and repellence associations
+All net data April 2022.csv
+
+
+

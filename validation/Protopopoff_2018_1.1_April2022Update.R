@@ -221,6 +221,11 @@ output2 <- run_simulation(sim_length, bednetparams_2,correlationsb2)
 output3 <- run_simulation(sim_length, sprayingparams_1,correlationsb1s)
 output4 <- run_simulation(sim_length, sprayingparams_2,correlationsb2s)
 
+output1$pv_182.5_5110 = output1$n_detect_182.5_5110/output1$n_182.5_5110
+output2$pv_182.5_5110 = output2$n_detect_182.5_5110/output2$n_182.5_5110
+output3$pv_182.5_5110 = output3$n_detect_182.5_5110/output3$n_182.5_5110
+output4$pv_182.5_5110 = output4$n_detect_182.5_5110/output4$n_182.5_5110
+
 par(mfrow=c(1,1))
 plot(output1$pv_182.5_5110 ~ output1$timestep,
      xlim=c(6.8,10)*365,
