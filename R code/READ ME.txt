@@ -1,0 +1,29 @@
+The analysis of mosquito data is carried out in a series of stages
+
+We use the susceptibility bioassay test as a proxy for pyrethroid resistance in local mosquitoes
+This is a widely used assay with many data collated
+
+We use experimental hut assays for data on the probability of mosquitoes dying on each feeding attempt.
+The above two assays and associations are reviewed in Nash et al. 2021 (https://doi.org/10.1016/j.crpvbd.2021.100047)
+
+A subsequent analysis finds that predictive performance of the transmission model is better with the log-logistic function
+Sherrard-Smith et al. in press (Nat Communs 2022)
+
+Part 1: Fit a log-logistic function to the mortality data
+
+Part 2: Define the additional benefit from next-generation mosquito nets
+This is those with something additional to pyrethroid-only active ingredients.
+We explore pyrethroid-PBO nets and pyrethroid-pyrrole nets
+
+Part 3: Define the associations between the probable outcomes of mosquito feeding attempts.
+How mosquito mortality as measured in an experimental hut predicts deterrence
+How mosquito mortality as measured in an experimental hut predicts successful feeding
+
+Part 4: We refit the half life parameters following 
+Churcher et al (2016) (DOI: 10.7554/eLife.16090) given a limitation that we do not have information on how washing relates to durability in the field for any newer net type, we do this for pyrethroid only nets and apply the same assumption to all nets. This will be updated when new data are avaialable and represents a key limitation currently.
+
+Part 5: Draw these information together to estimate parameters for the transmission model coded in malariasimulation.
+
+
+Validation: The validation folder uses malariasimulation to simulate recent randomised control trials testing the epidemiological benefit of mosquito nets. We show how closely the parameterisations are able to predict the observed empirical data
+
