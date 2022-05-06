@@ -23,14 +23,9 @@ sites_13 = read.csv("validation/data/site_file_13.csv",header=TRUE)
 ## specifics
 params_13 = read.csv("validation/data/input_params_13_update_net_parameters2_all_hutdataB.csv",header=TRUE) 
 
-# params_13$ITN_1 = 0
-# params_13$IRS_1
-## Site data,  
-# sites_13$itn_cov4 = sites_13$itn_cov5 = sites_13$itn_cov6 = 
-#   sites_13$itn_cov7 = sites_13$itn_cov8 = sites_13$itn_cov9 = sites_13$itn_cov10 = 
-#   sites_13$itn_cov11=sites_13$itn_cov12 = sites_13$itn_cov13 = sites_13$itn_cov14 = 
-#   sites_13$itn_cov15 = sites_13$itn_cov16 = sites_13$itn_cov17 = sites_13$itn_cov18 = 
-#   sites_13$itn_cov19 = sites_13$itn_cov20 = 0
+dat_res_pyr = read.csv("C:/Users/esherrar/Documents/Rprojects/Mosq-Net-Efficacy/parameters/pyrethroid_only_nets.csv",header=TRUE) 
+dat_res_pbo = read.csv("C:/Users/esherrar/Documents/Rprojects/Mosq-Net-Efficacy/parameters/pyrethroid_pbo_nets.csv",header=TRUE) 
+dat_res_pp = read.csv("C:/Users/esherrar/Documents/Rprojects/Mosq-Net-Efficacy/parameters/pyrethroid_pyrrole_nets.csv",header=TRUE) 
 
 
 ##
@@ -122,10 +117,10 @@ bednetparams_1 <- set_bednets(
   ## April 2022 update - WHO Recommended Nets alone: RCT Validation
   ## 83% pyrethroid resistance
   ##use parameters/pyrethroid_only_nets.csv
-  dn0 = matrix(c(0.245997991, 0.245997991, 0.245997991), nrow=3, ncol=3),
-  rn = matrix(c(0.706149167,0.706149167,0.706149167), nrow=3, ncol=3),
+  dn0 = matrix(c(dat_res_pyr[which(dat_res_pyr$resistance == 0.83),3]), nrow=3, ncol=3),
+  rn = matrix(c(dat_res_pyr[which(dat_res_pyr$resistance == 0.83),6]), nrow=3, ncol=3),
   rnm = matrix(c(.24, .24, .24), nrow=3, ncol=3),
-  gamman = c(2.288886539, 2.288886539, 2.288886539) * 365
+  gamman = rep(c(dat_res_pyr[which(dat_res_pyr$resistance == 0.83),9]) * 365,3)
 )
 
 
@@ -144,14 +139,16 @@ bednetparams_2 <- set_bednets(
   ## April 2022 update - WHO Recommended Nets alone: RCT Validation
   ## 83& pyrethroid resistance
   ## Pyrethroid-pbo nets
-  dn0 = matrix(c(0.389611527, 
-                 0.389611527, 
-                 0.389611527), nrow=3, ncol=3),
-  rn = matrix(c(0.596244584,
-                0.596244584,
-                0.596244584), nrow=3, ncol=3),
+  dn0 = matrix(c(dat_res_pyr[which(dat_res_pyr$resistance == 0.83),3],
+                 dat_res_pyr[which(dat_res_pyr$resistance == 0.83),3],
+                 dat_res_pbo[which(dat_res_pbo$resistance == 0.83),3]), nrow=3, ncol=3),
+  rn = matrix(c(dat_res_pyr[which(dat_res_pyr$resistance == 0.83),6],
+                dat_res_pyr[which(dat_res_pyr$resistance == 0.83),6],
+                dat_res_pbo[which(dat_res_pbo$resistance == 0.83),6]), nrow=3, ncol=3),
   rnm = matrix(c(.24, .24, .24), nrow=3, ncol=3),
-  gamman = c(1.90343459,1.90343459,1.90343459) * 365 ## TRIAL NETS
+  gamman = c(dat_res_pyr[which(dat_res_pyr$resistance == 0.83),9],
+             dat_res_pyr[which(dat_res_pyr$resistance == 0.83),9],
+             dat_res_pbo[which(dat_res_pbo$resistance == 0.83),9]) * 365
 )
 
 ##
@@ -249,16 +246,16 @@ loop_func_arm_1 = function(row_val){
     
     retention = params_13$itn_leave_dur[row_val] * year,
     
-    dn0 = matrix(c(0.245997991, 0.245997991, 0.245997991), nrow=3, ncol=3),
-    rn = matrix(c(0.706149167,0.706149167,0.706149167), nrow=3, ncol=3),
+    dn0 = matrix(c(dat_res_pyr[which(dat_res_pyr$resistance == 0.83),3]), nrow=3, ncol=3),
+    rn = matrix(c(dat_res_pyr[which(dat_res_pyr$resistance == 0.83),6]), nrow=3, ncol=3),
     rnm = matrix(c(.24, .24, .24), nrow=3, ncol=3),
-    gamman = c(2.288886539, 2.288886539, 2.288886539) * 365
+    gamman = rep(c(dat_res_pyr[which(dat_res_pyr$resistance == 0.83),9]) * 365,3)
   )
   correlationsb1 <- get_correlation_parameters(bednetparams_1)
   correlationsb1$inter_round_rho('bednets', 1)
   
   output1 <- run_simulation(sim_length, bednetparams_1,correlationsb1)
-  
+  output1$pv_182.5_5110 = output1$n_detect_182.5_5110/output1$n_182.5_5110
   store1 = output1$pv_182.5_5110
   
   return(store1)
@@ -278,21 +275,23 @@ loop_func_arm_2 = function(row_val){
     retention = params_13$itn_leave_dur[1000+row_val] * year,
     
     ## Pyrethroid-pbo nets
-    dn0 = matrix(c(0.389611527, 
-                   0.389611527, 
-                   0.389611527), nrow=3, ncol=3),
-    rn = matrix(c(0.596244584,
-                  0.596244584,
-                  0.596244584), nrow=3, ncol=3),
+    dn0 = matrix(c(dat_res_pyr[which(dat_res_pyr$resistance == 0.83),3],
+                   dat_res_pyr[which(dat_res_pyr$resistance == 0.83),3],
+                   dat_res_pbo[which(dat_res_pbo$resistance == 0.83),3]), nrow=3, ncol=3),
+    rn = matrix(c(dat_res_pyr[which(dat_res_pyr$resistance == 0.83),6],
+                  dat_res_pyr[which(dat_res_pyr$resistance == 0.83),6],
+                  dat_res_pbo[which(dat_res_pbo$resistance == 0.83),6]), nrow=3, ncol=3),
     rnm = matrix(c(.24, .24, .24), nrow=3, ncol=3),
-    gamman = c(1.90343459,1.90343459,1.90343459) * 365 ## TRIAL NETS
+    gamman = c(dat_res_pyr[which(dat_res_pyr$resistance == 0.83),9],
+               dat_res_pyr[which(dat_res_pyr$resistance == 0.83),9],
+               dat_res_pbo[which(dat_res_pbo$resistance == 0.83),9]) * 365 ## TRIAL NETS
   )
   
   correlationsb2 <- get_correlation_parameters(bednetparams_2)
   correlationsb2$inter_round_rho('bednets', 1)
   
   output2 <- run_simulation(sim_length, bednetparams_2,correlationsb2)
-  
+  output2$pv_182.5_5110 = output2$n_detect_182.5_5110/output2$n_182.5_5110
   store2 = output2$pv_182.5_5110
   
   return(store2)
@@ -313,10 +312,10 @@ loop_func_arm_3 = function(row_val){
     
     retention = params_13$itn_leave_dur[2000+row_val] * year,
     
-    dn0 = matrix(c(0.245997991, 0.245997991, 0.245997991), nrow=3, ncol=3),
-    rn = matrix(c(0.706149167,0.706149167,0.706149167), nrow=3, ncol=3),
+    dn0 = matrix(c(dat_res_pyr[which(dat_res_pyr$resistance == 0.83),3]), nrow=3, ncol=3),
+    rn = matrix(c(dat_res_pyr[which(dat_res_pyr$resistance == 0.83),6]), nrow=3, ncol=3),
     rnm = matrix(c(.24, .24, .24), nrow=3, ncol=3),
-    gamman = c(2.288886539, 2.288886539, 2.288886539) * 365
+    gamman = rep(c(dat_res_pyr[which(dat_res_pyr$resistance == 0.83),9]) * 365,3)
   )
   
   ## For arms 3 and 4 there is also nets
@@ -348,7 +347,7 @@ loop_func_arm_3 = function(row_val){
   
   
   output3 <- run_simulation(sim_length, sprayingparams_1,correlationsb1s)
-  
+  output3$pv_182.5_5110 = output3$n_detect_182.5_5110/output3$n_182.5_5110
   store3 = output3$pv_182.5_5110
   
   return(store3)
@@ -369,14 +368,16 @@ loop_func_arm_4 = function(row_val){
     retention = params_13$itn_leave_dur[1000+row_val] * year,
     
     ## Pyrethroid-pbo nets
-    dn0 = matrix(c(0.389611527, 
-                   0.389611527, 
-                   0.389611527), nrow=3, ncol=3),
-    rn = matrix(c(0.596244584,
-                  0.596244584,
-                  0.596244584), nrow=3, ncol=3),
+    dn0 = matrix(c(dat_res_pyr[which(dat_res_pyr$resistance == 0.83),3],
+                   dat_res_pyr[which(dat_res_pyr$resistance == 0.83),3],
+                   dat_res_pbo[which(dat_res_pbo$resistance == 0.83),3]), nrow=3, ncol=3),
+    rn = matrix(c(dat_res_pyr[which(dat_res_pyr$resistance == 0.83),6],
+                  dat_res_pyr[which(dat_res_pyr$resistance == 0.83),6],
+                  dat_res_pbo[which(dat_res_pbo$resistance == 0.83),6]), nrow=3, ncol=3),
     rnm = matrix(c(.24, .24, .24), nrow=3, ncol=3),
-    gamman = c(1.90343459,1.90343459,1.90343459) * 365 ## TRIAL NETS
+    gamman = c(dat_res_pyr[which(dat_res_pyr$resistance == 0.83),9],
+               dat_res_pyr[which(dat_res_pyr$resistance == 0.83),9],
+               dat_res_pbo[which(dat_res_pbo$resistance == 0.83),9]) * 365 ## TRIAL NETS
   )
   
   sprayingparams2 <- bednetparams_2
@@ -400,7 +401,7 @@ loop_func_arm_4 = function(row_val){
   correlationsb2s$inter_intervention_rho('bednets', 'spraying', 1)
   
   output4 <- run_simulation(sim_length, sprayingparams_2,correlationsb2s)
-  
+  output4$pv_182.5_5110 = output4$n_detect_182.5_5110/output4$n_182.5_5110
   store4 = output4$pv_182.5_5110
   
   return(store4)
@@ -417,27 +418,31 @@ for(i in 1:2){
   
 }
 
-
+par(mfrow=c(1,2))
 
 plot(output1$pv_182.5_5110 ~ output1$timestep,
      xlim=c(6.8,10)*365,
      ylim=c(0,1),pch="",
-     col="darkred",ylab = "Prevalence 6 months to 14 years")
+     col="black",ylab = "Prevalence 6 months to 14 years",
+     yaxt="n",xaxt="n",
+     xlab = "Time in months")
+axis(1, at =c(7,8,9,10)*365,labels=c("Jan 2015","Jan 2016","Jan 2017","Jan 2018"))
+axis(2, las=2,at=seq(0,1,0.2),labels=seq(0,100,20))
 for(i in 2:3){
-  lines(outputs_arm1[,i] ~ output1$timestep,col=adegenet::transp("darkred",0.3))  
-  lines(outputs_arm2[,i] ~ output1$timestep,col=adegenet::transp("aquamarine3",0.3))  
-  lines(outputs_arm3[,i] ~ output1$timestep,col=adegenet::transp("gold2",0.3))  
-  lines(outputs_arm4[,i] ~ output1$timestep,col=adegenet::transp("darkblue",0.3))  
+  lines(outputs_arm1[,i] ~ output1$timestep,col=adegenet::transp("black",0.4))  
+  lines(outputs_arm2[,i] ~ output1$timestep,col=adegenet::transp("purple",0.7))  
+  lines(outputs_arm3[,i] ~ output1$timestep,col=adegenet::transp("gold2",0.7))  
+  lines(outputs_arm4[,i] ~ output1$timestep,col=adegenet::transp("darkblue",0.7))  
 }
 
 
 abline(v=7*365,lty=2,col="grey")
-abline(v=7*365+1*365,lty=2,col="grey")
-abline(v=7*365+2*365,lty=2,col="grey")
-abline(v=7*365+3*365,lty=2,col="grey")
+# abline(v=7*365+1*365,lty=2,col="grey")
+# abline(v=7*365+2*365,lty=2,col="grey")
+# abline(v=7*365+3*365,lty=2,col="grey")
 
-lines(rowMeans(outputs_arm1[,2:11]) ~ output1$timestep,col="darkred",lwd=2)
-lines(rowMeans(outputs_arm2[,2:11]) ~ output1$timestep,col="aquamarine3",lwd=2)
+lines(rowMeans(outputs_arm1[,2:11]) ~ output1$timestep,col="darkgrey",lwd=2)
+lines(rowMeans(outputs_arm2[,2:11]) ~ output1$timestep,col="purple",lwd=2)
 lines(rowMeans(outputs_arm3[,2:11]) ~ output1$timestep,col="gold2",lwd=2)
 lines(rowMeans(outputs_arm4[,2:11]) ~ output1$timestep,col="darkblue",lwd=2)
 
@@ -457,17 +462,41 @@ time_match_L1 = c(-0.1666667, 0.33,  0.75,  1.33,  1.75,  2.33,2.75) * 365 + (7*
 
 
 ## add baselines
-cols_13 = c("darkred","aquamarine3","gold2","darkblue")
+cols_13 = c("darkgrey","purple","gold2","darkblue")
 for(i in 1:4){
   points(Tlo_arms[1:5,i] ~ time_match_L1[1:5], col = cols_13[i], pch=19,cex=1.5)
 }
 
+#######################################
+##
+## pred empirical result
+##
+#####################################
+obs_result = c(0.555, 0.553, 0.530, 0.68,
+               0.458, 0.311, 0.348, 0.459,
+               0.386, 0.264, 0.399, 0.551,
+               0.375, 0.286, 0.291, 0.437)
+time_muleba_rct = rep(c(0.33,  0.75,  1.33,  1.75),4)
 
+pred_results = c(outputs_arm1[c(round(2555+0.33*365),round(2555+0.75*365),round(2555+1.33*365),round(2555+1.75*365)),2],
+                 outputs_arm2[c(round(2555+0.33*365),round(2555+0.75*365),round(2555+1.33*365),round(2555+1.75*365)),2],
+                 outputs_arm3[c(round(2555+0.33*365),round(2555+0.75*365),round(2555+1.33*365),round(2555+1.75*365)),2],
+                 outputs_arm4[c(round(2555+0.33*365),round(2555+0.75*365),round(2555+1.33*365),round(2555+1.75*365)),2])
 
+plot(obs_result~pred_results,ylim=c(0,1),xlim=c(0,1),
+     ylab = "Empirical data prevalence (%)",
+     xlab = "Model simulated prevalence (%)",
+     col = rep(c("grey","purple","yellow","darkblue"),each=4),
+     pch=19)
+abline(a=0,b=1,lty=2,col="grey")
 
-
-
-
+legend("topleft",title = "Intervention",
+       legend = c("Pyrethroid-only nets",
+                  "Pyrethroid-PBO nets",
+                  "pyr-only plus IRS",
+                  "pyr-PBO plus IRS"),
+       col=c("grey","purple","yellow","darkblue"),pch=19,bty="n")
+## dim 1000,550
 
 
 

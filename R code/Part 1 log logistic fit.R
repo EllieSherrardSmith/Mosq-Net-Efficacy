@@ -13,6 +13,8 @@ rstan_options(auto_write = TRUE)
 ## data
 mt = read.csv("data/mortality_data_from_Nash2021.csv",header=TRUE)
 
+## remove Ifakara huts
+mt = subset(mt, mt$Hut != "Ifakara")
 
 data_list_MT = list(S = nrow(mt),
                     N_b = mt$Bioassay_N_tested,
@@ -25,11 +27,11 @@ data_list_MT = list(S = nrow(mt),
                     theta_b_test = seq(0,1,length=101))
 
 stan_base <- rstan::stan(file="R code/stan models/Bioassay/A1 Log-logistic Model.stan", 
-                  data=data_list_MT, 
-                  warmup=1000,
-                  control = list(adapt_delta = 0.8,
-                                 max_treedepth = 20),
-                  iter=2000, chains=4)
+                         data=data_list_MT, 
+                         warmup=1000,
+                         control = list(adapt_delta = 0.8,
+                                        max_treedepth = 20),
+                         iter=2000, chains=4)
 base <- rstan::extract(stan_base)
 
 median(base$b)

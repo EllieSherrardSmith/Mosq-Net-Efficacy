@@ -23,6 +23,10 @@ sites_14 = read.csv("validation/data/site_file_14.csv",header=TRUE)
 ## specifics
 params_14 = read.csv("validation/data/input_params_14_net_parameters2_all_hutdataB.csv",header=TRUE) 
 
+dat_res_pyr = read.csv("parameters/pyrethroid_only_nets.csv",header=TRUE) 
+dat_res_pbo = read.csv("parameters/pyrethroid_pbo_nets.csv",header=TRUE) 
+dat_res_pp = read.csv("parameters/pyrethroid_pyrrole_nets.csv",header=TRUE) 
+
 
 
 malsim_actual_f = function(dat_row){
@@ -109,14 +113,16 @@ malsim_actual_f = function(dat_row){
     retention = params_14$itn_leave_dur[dat_row] * year, ## Keeping this as it was observed during RCT
     ## 70% mortality 2017
     ## 48% mortality 2020 onwards
-    dn0 = t(matrix(as.numeric(c(0.300835939,0.300835939,0.300835939,
-                                0.286195637,0.286195637,0.286195637,
-                                0.286195637,0.286195637,0.286195637)), nrow=3, ncol=3)),
-    rn = t(matrix(as.numeric(c(0.668150735,0.668150735,0.668150735,
-                               0.678877403,0.678877403,0.678877403,
-                               0.678877403,0.678877403,0.678877403)), nrow=3, ncol=3)),
+    dn0 = matrix(c(dat_res_pyr[which(dat_res_pyr$bioassay_mortality == 0.7),3],
+                   dat_res_pyr[which(dat_res_pyr$bioassay_mortality == 0.48),3],
+                   dat_res_pyr[which(dat_res_pyr$bioassay_mortality == 0.48),3]), nrow=3, ncol=3),
+    rn = matrix(c(dat_res_pyr[which(dat_res_pyr$bioassay_mortality == 0.7),6],
+                  dat_res_pyr[which(dat_res_pyr$bioassay_mortality == 0.48),6],
+                  dat_res_pyr[which(dat_res_pyr$bioassay_mortality == 0.48),6]), nrow=3, ncol=3),
     rnm = matrix(c(.24, .24, .24), nrow=3, ncol=3),
-    gamman = as.numeric(c(2.553814335, 2.471680249, 2.471680249)) * 365
+    gamman = c(dat_res_pyr[which(dat_res_pyr$resistance == 0.7),9],
+               dat_res_pyr[which(dat_res_pyr$resistance == 0.48),9],
+               dat_res_pyr[which(dat_res_pyr$resistance == 0.48),9]) * 365
   )
   
   # pyrethroid PBO nets (rows 1:1000)
@@ -133,14 +139,16 @@ malsim_actual_f = function(dat_row){
     
     ## 70% mortality 2017
     ## 48% mortality 2020 onwards
-    dn0 = t(matrix(as.numeric(c(0.456511424,0.456511424,0.456511424,
-                                0.439908142,0.439908142,0.439908142,
-                                0.439908142,0.439908142,0.439908142)), nrow=3, ncol=3)),
-    rn = t(matrix(as.numeric(c(0.572317839,0.572317839,0.572317839,
-                               0.551698973,0.551698973,0.551698973,
-                               0.551698973,0.551698973,0.551698973)), nrow=3, ncol=3)),
+    dn0 = matrix(c(dat_res_pyr[which(dat_res_pyr$bioassay_mortality == 0.7),3],
+                   dat_res_pbo[which(dat_res_pbo$bioassay_mortality == 0.48),3],
+                   dat_res_pbo[which(dat_res_pbo$bioassay_mortality == 0.48),3]), nrow=3, ncol=3),
+    rn = matrix(c(dat_res_pyr[which(dat_res_pyr$bioassay_mortality == 0.7),6],
+                  dat_res_pbo[which(dat_res_pbo$bioassay_mortality == 0.48),6],
+                  dat_res_pbo[which(dat_res_pbo$bioassay_mortality == 0.48),6]), nrow=3, ncol=3),
     rnm = matrix(c(.24, .24, .24), nrow=3, ncol=3),
-    gamman = as.numeric(c(2.475053007, 2.305643305, 2.305643305)) * 365
+    gamman = c(dat_res_pyr[which(dat_res_pyr$resistance == 0.7),9],
+               dat_res_pyr[which(dat_res_pbo$resistance == 0.48),9],
+               dat_res_pyr[which(dat_res_pbo$resistance == 0.48),9]) * 365
   )
   
   
@@ -175,15 +183,20 @@ for(i in 1:3){
   dat[[i]] = malsim_actual_f(rand_val[i])
 }
 
-
+par(mfrow=c(1,2))
 plot(dat[[1]][,2] ~ dat[[1]][,1],
      xlim=c(3,5.5)*365,
      ylim=c(0,0.5),type="l",
-     col="darkred",ylab = "Prevalence 6 months to 14 years")
+     ylab = "Prevalence 6 months to 14 years",
+     col="white",
+     yaxt="n",xaxt="n",
+     xlab = "Time in months")
+axis(1, at =c(3,4,5)*365,labels=c("Jan 2017","Jan 2018","Jan 2019"))
+axis(2, las=2,at=seq(0,1,0.2),labels=seq(0,100,20))
 
 for(i in 1:3){
-  lines(dat[[i]][,2] ~ dat[[i]][,1],col=adegenet::transp("darkred",0.3))  
-  lines(dat[[i]][,3] ~ dat[[i]][,1],col=adegenet::transp("aquamarine3",0.3))  
+  lines(dat[[i]][,2] ~ dat[[i]][,1],col=adegenet::transp("black",0.4))  
+  lines(dat[[i]][,3] ~ dat[[i]][,1],col=adegenet::transp("purple",0.7))  
 }
 
 Tqo_arm1 = c(0.193,0.145,0.13,0.14)
@@ -192,20 +205,39 @@ prev_measured_time = c(3*year+157, c(4 * year + c(15, ## 6 months later (jan 201
                                  196,## 12 months later (july 2018)
                                  380)))## 18 months later (jan 2019)
 
-abline(v=3*year+196,lty=2)
+abline(v=3*year+196,lty=2,col="darkgrey")
 
 Tqo_arm_min = c(0.099,0.035)
 Tqo_arm_max = c(0.416,0.401)
 segments(x0=c(prev_measured_time[1],prev_measured_time[1]+14),
          x1=c(prev_measured_time[1],prev_measured_time[1]+14),
          y0 = Tqo_arm_min,
-         y1 = Tqo_arm_max,col=c("darkred","aquamarine3"),lwd=2)
+         y1 = Tqo_arm_max,col=c("darkgrey","purple"),lwd=2)
 
 ## Baseline all 4 arms
 ## 23.7% (12.8 ? 42)	25.1% (7.2 ? 41.7)	15.9% (1.5 ? 37.5)	8.2% (2.8 ? 34.1)
 
 # abline(v=0.677,lty=2)
 
-points(Tqo_arm1 ~ prev_measured_time,pch=15,cex=2,col="darkred")
-points(Tqo_arm2 ~ c(prev_measured_time+14),pch=17,cex=2,col="aquamarine3")
+points(Tqo_arm1 ~ prev_measured_time,pch=19,cex=1,col="darkgrey")
+points(Tqo_arm2 ~ c(prev_measured_time+14),pch=19,cex=1,col="purple")
 
+obs_uganda = c(Tqo_arm1[2:4],Tqo_arm2[2:4])
+
+time_uganda = rep(prev_measured_time[2:4],2)
+
+preds_uganda = c(dat[[1]][c(prev_measured_time[2:4]),2],
+                 dat[[1]][c(prev_measured_time[2:4]),3])
+
+plot(obs_uganda~preds_uganda,ylim=c(0,0.4),xlim=c(0,0.4),
+     ylab = "Empirical data prevalence (%)",
+     xlab = "Model simulated prevalence (%)",
+     col = rep(c("grey","purple"),each=3),
+     pch=19)
+abline(a=0,b=1,lty=2,col="grey")
+
+legend("topleft",title = "Intervention",
+       legend = c("Pyrethroid-only nets",
+                  "Pyrethroid-PBO nets"),
+       col=c("grey","purple"),pch=19,bty="n")
+## dim 1000,550
