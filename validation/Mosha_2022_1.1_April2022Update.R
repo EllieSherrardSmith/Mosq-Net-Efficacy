@@ -259,8 +259,27 @@ set.seed(24345)
 ## MORO, Kwara
 ## Using NNP pilots in Burkina as example sites to contrast net impacts.
 
+
+dat_res_pyr = read.csv("C:/Users/esherrar/Documents/Rprojects/Mosq-Net-Efficacy/parameters/pyrethroid_only_nets.csv",header=TRUE) 
+dat_res_pbo = read.csv("C:/Users/esherrar/Documents/Rprojects/Mosq-Net-Efficacy/parameters/pyrethroid_pbo_nets.csv",header=TRUE) 
+dat_res_pp = read.csv("C:/Users/esherrar/Documents/Rprojects/Mosq-Net-Efficacy/parameters/pyrethroid_pyrrole_nets.csv",header=TRUE) 
+
+dat_res_pyr[which(dat_res_pyr$resistance == data1$RESISTANCE[row_drawn]),c(3,2,4)]
+dat_res_pbo[which(dat_res_pbo$resistance == data1$RESISTANCE[row_drawn]),c(3,2,4)]
+dat_res_pp[which(dat_res_pp$resistance == data1$RESISTANCE[row_drawn]),c(3,2,4)]
+
+dat_res_pyr[which(dat_res_pyr$resistance == data1$RESISTANCE[row_drawn]),c(6,5,7)]
+dat_res_pbo[which(dat_res_pbo$resistance == data1$RESISTANCE[row_drawn]),c(6,5,7)]
+dat_res_pp[which(dat_res_pp$resistance == data1$RESISTANCE[row_drawn]),c(6,5,7)]
+
+dat_res_pyr[which(dat_res_pyr$resistance == data1$RESISTANCE[row_drawn]),c(9,8,10)]
+dat_res_pbo[which(dat_res_pbo$resistance == data1$RESISTANCE[row_drawn]),c(9,8,10)]
+dat_res_pp[which(dat_res_pp$resistance == data1$RESISTANCE[row_drawn]),c(9,8,10)]
+
+
 sites = read.csv("Figures/data RCT Misungwi/site_file.csv",header=TRUE)
 data1 = read.csv("Figures/data RCT Misungwi/parameter_estimates_Mosha2022.csv",header=TRUE)
+
 
 ##dat_res we create in 0_UNCERTAINTY...
 ##ress calls a cell from this data frame
@@ -435,9 +454,9 @@ malsim_smc_f = function(EIR_L,row_drawn,top_up){
 }
 
 
-pyr_nets = malsim_smc_f(EIR_L = 140,row_drawn =1,top_up = 0.1577571)
-pbo_nets = malsim_smc_f(EIR_L = 100,row_drawn =2,top_up = 0.1334457)
-pp_nets =  malsim_smc_f(EIR_L = 110,row_drawn =3,top_up = 0.1451762)
+pyr_nets = malsim_smc_f(EIR_L = 150,row_drawn =1,top_up = 0.1577571)
+pbo_nets = malsim_smc_f(EIR_L = 90,row_drawn =2,top_up = 0.1334457)
+pp_nets =  malsim_smc_f(EIR_L = 130,row_drawn =3,top_up = 0.1451762)
 
 pyr_nets_min = malsim_smc_f(EIR_L = 160,row_drawn =4,top_up = 0.1577571)
 pbo_nets_min = malsim_smc_f(EIR_L = 120,row_drawn =5,top_up = 0.1334457)
@@ -474,7 +493,7 @@ lines(pbo_nets$prev_05_14 ~ pbo_nets$timestep,col="purple",lty=1,lwd=1) ## pyr-P
 polygon(c(pp_nets$timestep,rev(pp_nets$timestep)),
         c(pp_nets_min$prev_05_14,rev(pp_nets_max$prev_05_14)),
         border=NA,col=adegenet::transp("aquamarine3",0.4))
-lines(pp_nets$prev_05_14 ~ pp_nets$timestep,col="aquamarine3",lty=1,lwd=1) ## IG2
+lines(pp_nets$prev_05_14 ~ pp_nets$timestep,col="aquamarine4",lty=1,lwd=1) ## IG2
 
 ### Check and use what is in Mosha et al 2022
 # Post 12 months (Jan 2019) median 17.6 (min 0 and max 73.3)
