@@ -399,9 +399,6 @@ for(i in sample(1:1000,size=8,replace=FALSE)){
   print(i)
 }
 
-
-
-
 #################################
 ##
 ## Global estimates for all of us to use

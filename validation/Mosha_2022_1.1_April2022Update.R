@@ -854,18 +854,18 @@ minpp_rel_inc_y2 = (annual_obs_incy2_pyr-minannual_obs_incy2_pyrrole)/annual_obs
 
 c(0.32,0.57,NA,0.13,0.48,NA,0.13,0.31)
 pbo_trial_relative_inc_y1 = (0.32 - 0.13)/0.32
-pbo_trial_relative_inc_y2 = (0.32 - 0.48)/0.32
-pyrrole_trial_relative_inc_y1 = (0.57 - 0.13)/0.57
+pbo_trial_relative_inc_y2 = (0.57 - 0.48)/0.57
+pyrrole_trial_relative_inc_y1 = (0.32 - 0.13)/0.32
 pyrrole_trial_relative_inc_y2 = (0.57 - 0.31)/0.57
 
 
 barplot(c(pbo_rel_inc_y1,pbo_rel_inc_y2,NA,
           pp_rel_inc_y1,pp_rel_inc_y2),
         col=rep("white",5), bty="n",
-        yaxt="n",ylim = c(-1,1),border=NA,
+        yaxt="n",ylim = c(-0.4,1),border=NA,
         cex.lab=1.2,cex.axis=1.2,
         ylab = "Relative reduction in incidence")
-axis(2,las=2,seq(0,1,0.2),labels=seq(0,100,20),cex=1.2,cex.axis=1.2)
+axis(2,las=2,seq(-0.4,1,0.2),labels=seq(-40,100,20),cex=1.2,cex.axis=1.2)
 
 segments(x0=seq(0.8,5.7,length=5),x1=seq(0.8,5.7,length=5),
          y0=c(minpbo_rel_inc_y1,minpbo_rel_inc_y2,NA,
