@@ -113,8 +113,13 @@ lines(hut_mort_LLPP ~ seq(0,1,length=101),col="aquamarine3", lwd=2)
 
 ## Part 3 MORTALITY TO DETERRENCE
 # load fit - just using All nets
-fit1_a <- readRDS("stan model outputs/April_2022_ento_deterrence_AllRec.rds")
-fit1_a_fit <- rstan::extract(fit1_a, permuted = TRUE)
+# fit1_a <- readRDS("stan model outputs/April_2022_ento_deterrence_AllRec.rds")
+# fit1_a_fit <- rstan::extract(fit1_a, permuted = TRUE)
+# 
+# dt_det = data.frame(c = fit1_a_fit$c,d = fit1_a_fit$d,e = fit1_a_fit$e)
+# 
+# saveRDS(dt_det,"stan model outputs/April_2022_ento_deterrence_AllRec_extract.rds")
+fit1_a_fit = readRDS("stan model outputs/April_2022_ento_deterrence_AllRec_extract.rds")
 
 ## All nets (WHO recommended as per Okumu & Finda 2021) 
 fit1_a_c <- fit1_a_fit$c[c(data_picker)]
@@ -140,8 +145,12 @@ axis(2,las=2,at=seq(0,1,0.2),labels=seq(0,100,20))
 
 ## 
 ##  Part 3 MORTALITY TO feed
-fit3_a <- readRDS("stan model outputs/April_2022_ento_feeding_0washes_AllRec.rds")
-fit3_a_fit <- rstan::extract(fit3_a, permuted = TRUE)
+# fit3_a <- readRDS("stan model outputs/April_2022_ento_feeding_0washes_AllRec.rds")
+# fit3_a_fit <- rstan::extract(fit3_a, permuted = TRUE)
+# 
+# dt_fed = data.frame(a = fit3_a_fit$a, b = fit3_a_fit$b)
+# saveRDS(dt_fed,"stan model outputs/April_2022_ento_feeding_0washes_AllRec_extract.rds")
+fit3_a_fit = readRDS("stan model outputs/April_2022_ento_feeding_0washes_AllRec_extract.rds")
 
 fit3_a_f <- median(fit3_a_fit$a)
 fit3_a_g <- median(fit3_a_fit$b)
@@ -321,7 +330,7 @@ head(test)
 tail(test)
 
 
-test = resistance_ITN_default_params_2_f(product = 2, ## PYRETHROID ONLY LLIN 
+test = resistance_ITN_default_params_2_f(product = 2, ## PYRETHROID pyrrole LLIN 
                                          data_picker_rand = 45) ## any number from 1 to 1000
 head(test)
 tail(test)
@@ -493,6 +502,6 @@ ppNets$bioassay_mortality = seq(1,0,length=101)
 head(ppNets)
 
 
-write.csv(pyrethroidOnlyNets,"parameters/pyrethroid_only_nets.csv")
-write.csv(pyrethroidPBONets,"parameters/pyrethroid_pbo_nets.csv")
-write.csv(ppNets,"parameters/pyrethroid_pyrrole_nets.csv")
+# write.csv(pyrethroidOnlyNets,"parameters/pyrethroid_only_nets.csv")
+# write.csv(pyrethroidPBONets,"parameters/pyrethroid_pbo_nets.csv")
+# write.csv(ppNets,"parameters/pyrethroid_pyrrole_nets.csv")
