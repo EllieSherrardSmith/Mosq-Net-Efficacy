@@ -1,8 +1,3 @@
-library(malariasimulation)
-library(malariaEquilibrium)
-library(reshape2)
-library(ggplot2)
-
 ################################
 ##
 ## Data: from Mosha et al. 2022 The Lancet
@@ -270,9 +265,6 @@ dat_res_pyr = read.csv("C:/Users/esherrar/Documents/Rprojects/Mosq-Net-Efficacy/
 dat_res_pbo = read.csv("C:/Users/esherrar/Documents/Rprojects/Mosq-Net-Efficacy/parameters/pyrethroid_pbo_nets.csv",header=TRUE) 
 dat_res_pp = read.csv("C:/Users/esherrar/Documents/Rprojects/Mosq-Net-Efficacy/parameters/pyrethroid_pyrrole_nets.csv",header=TRUE) 
 
-sites = read.csv("Figures/data RCT Misungwi/site_file.csv",header=TRUE)
-data1 = read.csv("Figures/data RCT Misungwi/parameter_estimates_Mosha2022.csv",header=TRUE)
-
 dat_res_pyr[which(dat_res_pyr$resistance == data1$RESISTANCE[row_drawn]),c(3,2,4)]
 dat_res_pbo[which(dat_res_pbo$resistance == data1$RESISTANCE[row_drawn]),c(3,2,4)]
 dat_res_pp[which(dat_res_pp$resistance == data1$RESISTANCE[row_drawn]),c(3,2,4)]
@@ -409,32 +401,33 @@ malsim_smc_cali_f = function(EIR_L,row_drawn,top_up){
     ## each row needs to show the efficacy parameter across years (and cols are diff mosquito)
     dn0 = matrix(c(rep(data1$itn_kill_pyrethroid_ITN[row_drawn],8),
                    data1$itn_kill_TRIAL_NET[row_drawn],
-                   rep(data1$itn_kill_pyrethroid_ITN[row_drawn],5),
+                   rep(data1$itn_kill_TRIAL_NET[row_drawn],5),
                    data1$itn_kill_TRIAL_NET[row_drawn],
-                   rep(data1$itn_kill_pyrethroid_ITN[row_drawn],5),
-                   rep(data1$itn_kill_pyrethroid_ITN[row_drawn],8),
+                   rep(data1$itn_kill_TRIAL_NET[row_drawn],5),
+                   rep(data1$itn_kill_TRIAL_NET[row_drawn],8),
                    data1$itn_kill_TRIAL_NET[row_drawn],
-                   rep(data1$itn_kill_pyrethroid_ITN[row_drawn],5),
+                   rep(data1$itn_kill_TRIAL_NET[row_drawn],5),
                    data1$itn_kill_TRIAL_NET[row_drawn],
-                   rep(data1$itn_kill_pyrethroid_ITN[row_drawn],5)),
+                   rep(data1$itn_kill_TRIAL_NET[row_drawn],5)),
                  nrow=20, ncol=2),
     rn =  matrix(c(rep(data1$itn_repel_pyrethroid_ITN[row_drawn],8),
                    data1$itn_repel_TRIAL_NET[row_drawn],
-                   rep(data1$itn_repel_pyrethroid_ITN[row_drawn],5),
+                   rep(data1$itn_repel_TRIAL_NET[row_drawn],5),
                    data1$itn_repel_TRIAL_NET[row_drawn],
-                   rep(data1$itn_repel_pyrethroid_ITN[row_drawn],5),
-                   rep(data1$itn_repel_pyrethroid_ITN[row_drawn],8),
+                   rep(data1$itn_repel_TRIAL_NET[row_drawn],5),
+                   rep(data1$itn_repel_TRIAL_NET[row_drawn],8),
                    data1$itn_repel_TRIAL_NET[row_drawn],
-                   rep(data1$itn_repel_pyrethroid_ITN[row_drawn],5),
+                   rep(data1$itn_repel_TRIAL_NET[row_drawn],5),
                    data1$itn_repel_TRIAL_NET[row_drawn],
-                   rep(data1$itn_repel_pyrethroid_ITN[row_drawn],5)),
+                   rep(data1$itn_repel_TRIAL_NET[row_drawn],5)),
                  nrow=20, ncol=2),
     rnm = matrix(.24, nrow=20, ncol=2),
     gamman = c(rep(data1$itn_half_life_pyrethroid_ITN[row_drawn] * 365, 8),
                data1$itn_half_life_TRIAL_NET[row_drawn] * 365,
-               rep(data1$itn_half_life_pyrethroid_ITN[row_drawn] * 365, 5),
+               rep(data1$itn_half_life_TRIAL_NET[row_drawn] * 365, 5),
                data1$itn_half_life_TRIAL_NET[row_drawn] * 365,
-               rep(data1$itn_half_life_pyrethroid_ITN[row_drawn] * 365, 5))
+               rep(data1$itn_half_life_TRIAL_NET[row_drawn] * 365, 5))
+    
   )
   
   correlationsb1 <- get_correlation_parameters(bednetparams_1)
@@ -467,7 +460,7 @@ malsim_smc_cali_f = function(EIR_L,row_drawn,top_up){
                         target = target,
                         target_tt = target_tt,
                         summary_function = summary_pfprev_6m_14y,
-                        tolerance = 0.01, 
+                        tolerance = 0.02, 
                         interval = c(1, 250))##upper bound needs to be high enough so negative differences are not returned in uniroot
   
   return(out_net1$root)
@@ -602,32 +595,32 @@ malsim_smc_f = function(EIR_L,row_drawn,top_up){
     ## each row needs to show the efficacy parameter across years (and cols are diff mosquito)
     dn0 = matrix(c(rep(data1$itn_kill_pyrethroid_ITN[row_drawn],8),
                    data1$itn_kill_TRIAL_NET[row_drawn],
-                   rep(data1$itn_kill_pyrethroid_ITN[row_drawn],5),
+                   rep(data1$itn_kill_TRIAL_NET[row_drawn],5),
                    data1$itn_kill_TRIAL_NET[row_drawn],
-                   rep(data1$itn_kill_pyrethroid_ITN[row_drawn],5),
-                   rep(data1$itn_kill_pyrethroid_ITN[row_drawn],8),
+                   rep(data1$itn_kill_TRIAL_NET[row_drawn],5),
+                   rep(data1$itn_kill_TRIAL_NET[row_drawn],8),
                    data1$itn_kill_TRIAL_NET[row_drawn],
-                   rep(data1$itn_kill_pyrethroid_ITN[row_drawn],5),
+                   rep(data1$itn_kill_TRIAL_NET[row_drawn],5),
                    data1$itn_kill_TRIAL_NET[row_drawn],
-                   rep(data1$itn_kill_pyrethroid_ITN[row_drawn],5)),
+                   rep(data1$itn_kill_TRIAL_NET[row_drawn],5)),
                  nrow=20, ncol=2),
     rn =  matrix(c(rep(data1$itn_repel_pyrethroid_ITN[row_drawn],8),
                    data1$itn_repel_TRIAL_NET[row_drawn],
-                   rep(data1$itn_repel_pyrethroid_ITN[row_drawn],5),
+                   rep(data1$itn_repel_TRIAL_NET[row_drawn],5),
                    data1$itn_repel_TRIAL_NET[row_drawn],
-                   rep(data1$itn_repel_pyrethroid_ITN[row_drawn],5),
-                   rep(data1$itn_repel_pyrethroid_ITN[row_drawn],8),
+                   rep(data1$itn_repel_TRIAL_NET[row_drawn],5),
+                   rep(data1$itn_repel_TRIAL_NET[row_drawn],8),
                    data1$itn_repel_TRIAL_NET[row_drawn],
-                   rep(data1$itn_repel_pyrethroid_ITN[row_drawn],5),
+                   rep(data1$itn_repel_TRIAL_NET[row_drawn],5),
                    data1$itn_repel_TRIAL_NET[row_drawn],
-                   rep(data1$itn_repel_pyrethroid_ITN[row_drawn],5)),
+                   rep(data1$itn_repel_TRIAL_NET[row_drawn],5)),
                  nrow=20, ncol=2),
     rnm = matrix(.24, nrow=20, ncol=2),
     gamman = c(rep(data1$itn_half_life_pyrethroid_ITN[row_drawn] * 365, 8),
                data1$itn_half_life_TRIAL_NET[row_drawn] * 365,
-               rep(data1$itn_half_life_pyrethroid_ITN[row_drawn] * 365, 5),
+               rep(data1$itn_half_life_TRIAL_NET[row_drawn] * 365, 5),
                data1$itn_half_life_TRIAL_NET[row_drawn] * 365,
-               rep(data1$itn_half_life_pyrethroid_ITN[row_drawn] * 365, 5))
+               rep(data1$itn_half_life_TRIAL_NET[row_drawn] * 365, 5))
   )
   
   correlationsb1 <- get_correlation_parameters(bednetparams_1)
@@ -663,58 +656,42 @@ malsim_smc_f = function(EIR_L,row_drawn,top_up){
 ## simulating top up with trial specific nets in each arm
 ## outputing net use?
 
-# pyr_nets_cali = 133.6573
-# pbo_nets_cali = 70.83473
-# pp_nets_cali = 96.35578
-  
-pyr_nets = malsim_smc_f(EIR_L = pyr_nets_cali,row_drawn =1,top_up = 0.25)
-pbo_nets = malsim_smc_f(EIR_L = pbo_nets_cali,row_drawn =2,top_up = 0.35)
-pp_nets =  malsim_smc_f(EIR_L = pp_nets_cali, row_drawn =3,top_up = 0.25)
+pyr_nets = malsim_smc_f(EIR_L = pyr_nets_cali,row_drawn =1,top_up = 0.25)#0.1577571)
+pbo_nets = malsim_smc_f(EIR_L = pbo_nets_cali,row_drawn =2,top_up = 0.35)#0.1334457)
+pp_nets =  malsim_smc_f(EIR_L = pp_nets_cali,row_drawn =3,top_up = 0.25)#0.1451762)
 
 pyr_nets_min = malsim_smc_f(EIR_L = pyr_nets_cali,row_drawn =4,top_up = 0.25)#0.1577571)
 pbo_nets_min = malsim_smc_f(EIR_L = pbo_nets_cali,row_drawn =5,top_up = 0.35)#0.1334457)
-pp_nets_min =  malsim_smc_f(EIR_L = pp_nets_cali, row_drawn =6,top_up = 0.25)#0.1451762)
+pp_nets_min =  malsim_smc_f(EIR_L = pp_nets_cali,row_drawn =6,top_up = 0.25)#0.1451762)
 
 pyr_nets_max = malsim_smc_f(EIR_L = pyr_nets_cali,row_drawn =7,top_up = 0.25)#0.1577571)
 pbo_nets_max = malsim_smc_f(EIR_L = pbo_nets_cali,row_drawn =8,top_up = 0.35)#0.1334457)
-pp_nets_max =  malsim_smc_f(EIR_L = pp_nets_cali, row_drawn =9,top_up = 0.25)#0.1451762)
+pp_nets_max =  malsim_smc_f(EIR_L = pp_nets_cali,row_drawn =9,top_up = 0.25)#0.1451762)
 
-# write.csv(pyr_nets,"Figures/simulation_outputs/sim_best_PyrOnlyMedian.csv")
-# write.csv(pyr_nets_min,"Figures/simulation_outputs/sim_best_PyrOnlyMin.csv")
-# write.csv(pyr_nets_max,"Figures/simulation_outputs/sim_best_PyrOnlyMax.csv")
+# write.csv(pyr_nets,"Figures/simulation_outputs/sim_what_if_trial_net_top_up_PyrethroidOnlyMedian.csv")
+# write.csv(pyr_nets_min,"Figures/simulation_outputs/sim_what_if_trial_net_top_up_PyrethroidOnlyMin.csv")
+# write.csv(pyr_nets_max,"Figures/simulation_outputs/sim_what_if_trial_net_top_up_PyrethroidOnlyMax.csv")
 # 
-# write.csv(pbo_nets,"Figures/simulation_outputs/sim_best_PboOnlyMedian.csv")
-# write.csv(pbo_nets_min,"Figures/simulation_outputs/sim_best_PboOnlyMin.csv")
-# write.csv(pbo_nets_max,"Figures/simulation_outputs/sim_best_PboOnlyMax.csv")
+# write.csv(pbo_nets,"Figures/simulation_outputs/sim_what_if_trial_net_top_up_PyrethroidPBOMedian.csv")
+# write.csv(pbo_nets_min,"Figures/simulation_outputs/sim_what_if_trial_net_top_up_PyrethroidPBOMin.csv")
+# write.csv(pbo_nets_max,"Figures/simulation_outputs/sim_what_if_trial_net_top_up_PyrethroidPBOMax.csv")
 # 
-# write.csv(pp_nets,"Figures/simulation_outputs/sim_best_PyrroleOnlyMedian.csv")
-# write.csv(pp_nets_min,"Figures/simulation_outputs/sim_best_PyrroleOnlyMin.csv")
-# write.csv(pp_nets_max,"Figures/simulation_outputs/sim_best_PyrroleOnlyMax.csv")
-
-pyr_nets = read.csv("Figures/simulation_outputs/sim_best_PyrOnlyMedian.csv")
-pyr_nets_min = read.csv("Figures/simulation_outputs/sim_best_PyrOnlyMin.csv")
-pyr_nets_max = read.csv("Figures/simulation_outputs/sim_best_PyrOnlyMax.csv")
-
-pbo_nets = read.csv("Figures/simulation_outputs/sim_best_PboOnlyMedian.csv")
-pbo_nets_min = read.csv("Figures/simulation_outputs/sim_best_PboOnlyMin.csv")
-pbo_nets_max = read.csv("Figures/simulation_outputs/sim_best_PboOnlyMax.csv")
-
-pp_nets = read.csv("Figures/simulation_outputs/sim_best_PyrroleOnlyMedian.csv")
-pp_nets_min = read.csv("Figures/simulation_outputs/sim_best_PyrroleOnlyMin.csv")
-pp_nets_max = read.csv("Figures/simulation_outputs/sim_best_PyrroleOnlyMax.csv")
+# write.csv(pp_nets,"Figures/simulation_outputs/sim_what_if_trial_net_top_up_PyrethroidPyrroleMedian.csv")
+# write.csv(pp_nets_min,"Figures/simulation_outputs/sim_what_if_trial_net_top_up_PyrethroidPyrroleMin.csv")
+# write.csv(pp_nets_max,"Figures/simulation_outputs/sim_what_if_trial_net_top_up_PyrethroidPyrroleMax.csv")
 
 par(mfrow=c(2,2))
 par(mar=c(4,4,3,2))
 
 plot(pyr_nets$prev_05_14 ~ pyr_nets$timestep,
      main = "",ylim=c(0,0.8),
-     ylab = "Prevalence in children 0.5 to 14-yrs (%)",
+     ylab = "Prevalence in children 6-month to 14-years (%)",
      cex.lab=1.2,cex.axis=1.2,
      col="white",yaxt="n",
      xlab = "",type="l",xlim=c(3,7)*365,xaxt="n")
 axis(1,at=c(365*c(2,3,4,5,6,7,8,9)),
      labels = c("Jan 2017","Jan 2018","Jan 2019","Jan 2020","Jan 2021","Jan 2022","Jan 2023","Jan 2024"))
-axis(2,las=2,at=c(0,0.2,0.4,0.6,0.8),labels=seq(0,80,20),cex=1.2,cex.axis=1.2)
+axis(2,las=2,at=c(0,0.2,0.4,0.6,0.8),labels=seq(0,80,20),cex=1.4,cex.axis=1.4)
 
 polygon(c(pyr_nets$timestep,rev(pyr_nets$timestep)),
         c(pyr_nets_min$prev_05_14,rev(pyr_nets_max$prev_05_14)),
@@ -737,7 +714,7 @@ lines(pp_nets$prev_05_14 ~ pp_nets$timestep,col="aquamarine4",lty=1,lwd=1) ## IG
 # Post 18 months (Aug 2019) median 48.5 (min 3.0 and max 79.2)
 # Post 24 months (Jan 2020) median 35.5 (min 2.4 and max 76.7)
 points(c(0.459,0.42,0.427)~rep(c(3*365+31+28+31+30+31+30+31+31+30+15),3),
-       col=c("black","purple","aquamarine3"),pch=19,cex=2)
+       col=c("black","purple","aquamarine4"),pch=19)
 
 year = 365
 timestep = round(c(0, 4, 7) * year + c(27, ## from NNP Sept 2017
@@ -768,6 +745,8 @@ pred_val_min = c(pyr_nets_min$prev_05_14[c(time_obs_epi)],
 pred_val_max = c(pyr_nets_max$prev_05_14[c(time_obs_epi)],
                  pbo_nets_max$prev_05_14[c(time_obs_epi)],
                  pp_nets_max$prev_05_14[c(time_obs_epi)])
+
+
 
 m1 = lm(obs_val ~ pred_val_med + 0)
 summary.lm(m1)
