@@ -22,6 +22,7 @@
 
 ## Critical is to keep, for each fit
 ## the same row of parameters for that simulation from stan models
+setwd("C:/Users/esherrar/Documents/Rprojects/Mosq-Net-Efficacy")
 
 library(rstan)
 options(mc.cores = parallel::detectCores())
@@ -443,25 +444,25 @@ head(pyrethroidOnlyNets)
 ## pyrethroid PBO
 
 vec = 1:1000
-matrix_dn0 = matrix_rn0 = matrix_halflife = array(dim=c(nrow(test),length(vec)))
+matrix_dn0_pbo = matrix_rn0_pbo = matrix_halflife_pbo = array(dim=c(nrow(test),length(vec)))
 for(i in 1:1000){
   test = resistance_ITN_default_params_2_f(product = 1, ## PYRETHROID ONLY LLIN 
                                            data_picker_rand = i) ## any number from 1 to 1000
-  matrix_dn0[,i] = test$ERG_d_ITN0
-  matrix_rn0[,i] = test$ERG_r_ITN0
-  matrix_halflife[,i] = test$itn_half_life
+  matrix_dn0_pbo[,i] = test$ERG_d_ITN0
+  matrix_rn0_pbo[,i] = test$ERG_r_ITN0
+  matrix_halflife_pbo[,i] = test$itn_half_life
   
 }
 
-dn0MEAN = rowMeans(matrix_dn0)
-rn0MEAN = rowMeans(matrix_rn0)
-halflifeMEAN = rowMeans(matrix_halflife)
+dn0MEAN_pbo = rowMeans(matrix_dn0_pbo)
+rn0MEAN_pbo = rowMeans(matrix_rn0_pbo)
+halflifeMEAN_pbo = rowMeans(matrix_halflife_pbo)
 
 dn0 = rn0 = gamman = array(dim=c(nrow(test),3))
 for(j in 1:nrow(test)){
-  dn0[j,] = c(as.numeric(quantile(matrix_dn0[j,],c(0.1,0.5,0.9))))
-  rn0[j,] = c(as.numeric(quantile(matrix_rn0[j,],c(0.1,0.5,0.9))))
-  gamman[j,] = c(as.numeric(quantile(matrix_halflife[j,],c(0.1,0.5,0.9))))
+  dn0[j,] = c(as.numeric(quantile(matrix_dn0_pbo[j,],c(0.1,0.5,0.9))))
+  rn0[j,] = c(as.numeric(quantile(matrix_rn0_pbo[j,],c(0.1,0.5,0.9))))
+  gamman[j,] = c(as.numeric(quantile(matrix_halflife_pbo[j,],c(0.1,0.5,0.9))))
 }
 
 pyrethroidPBONets = data.frame(dn0_lo10 = dn0[,1],dn0_med = dn0[,2],dn0_up90 = dn0[,3],
@@ -474,24 +475,24 @@ head(pyrethroidPBONets)
 ## pyrethroid-pyrrole
 
 vec = 1:1000
-matrix_dn0 = matrix_rn0 = matrix_halflife = array(dim=c(nrow(test),length(vec)))
+matrix_dn0_pyrrole = matrix_rn0_pyrrole = matrix_halflife_pyrrole = array(dim=c(nrow(test),length(vec)))
 for(i in 1:1000){
   test = resistance_ITN_default_params_2_f(product = 2, ## PYRETHROID ONLY LLIN 
                                            data_picker_rand = i) ## any number from 1 to 1000
-  matrix_dn0[,i] = test$ERG_d_ITN0
-  matrix_rn0[,i] = test$ERG_r_ITN0
-  matrix_halflife[,i] = test$itn_half_life
+  matrix_dn0_pyrrole[,i] = test$ERG_d_ITN0
+  matrix_rn0_pyrrole[,i] = test$ERG_r_ITN0
+  # matrix_halflife[,i] = test$itn_half_life
   
 }
 
-dn0MEAN = rowMeans(matrix_dn0)
-rn0MEAN = rowMeans(matrix_rn0)
+dn0MEAN = rowMeans(matrix_dn0_pyrrole)
+rn0MEAN = rowMeans(matrix_rn0_pyrrole)
 halflifeMEAN = rowMeans(matrix_halflife)
 
 dn0 = rn0 = gamman = array(dim=c(nrow(test),3))
 for(j in 1:nrow(test)){
-  dn0[j,] = c(as.numeric(quantile(matrix_dn0[j,],c(0.1,0.5,0.9))))
-  rn0[j,] = c(as.numeric(quantile(matrix_rn0[j,],c(0.1,0.5,0.9))))
+  dn0[j,] = c(as.numeric(quantile(matrix_dn0_pyrrole[j,],c(0.1,0.5,0.9))))
+  rn0[j,] = c(as.numeric(quantile(matrix_rn0_pyrrole[j,],c(0.1,0.5,0.9))))
   gamman[j,] = c(as.numeric(quantile(matrix_halflife[j,],c(0.1,0.5,0.9))))
 }
 
