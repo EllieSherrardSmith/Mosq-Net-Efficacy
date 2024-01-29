@@ -86,6 +86,7 @@ preds_g2 = array(dim=c(100,4000))
 for(i in 1:4000){
   preds_g2[,i] = 1 / (1 + exp(-base$alpha1[i] - base$alpha2[i]*x))
 }
+
 median_G2_pred = 1 / (1 + exp(-quantile(base$alpha1,0.5) - quantile(base$alpha2,0.5)*x))
 upper_G2_pred = 1 / (1 + exp(-quantile(base$alpha1,0.975) - quantile(base$alpha2,0.975)*x))
 lower_G2_pred = 1 / (1 + exp(-quantile(base$alpha1,0.025) - quantile(base$alpha2,0.025)*x))
@@ -193,3 +194,156 @@ legend("bottomright",legend=c("Pyr-pyrrole (72 hr)",
                               "Pyr-PBO (24 hr)"),ncol=2,
        pch=c(19,19),col=c("aquamarine3","purple"),lty=1,bty="n")
 
+
+##############################################
+##
+## Adding uncertainty by fitting the beta_binomial
+library(shinystan)
+
+#Logical indicators
+diagnostic_plots <- FALSE
+save_plot <- FALSE
+
+#Create fine scaled data frame
+fine_df <- data.frame("resistance" = seq(0.0,
+                                   1.0,
+                                   0.01))
+
+#rstan options
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+n_chains <- 4
+tot_iter <- 3000
+burnin <- 2000
+betbin_options <- list(adapt_delta = 0.999,
+                       stepsize = 0.01,
+                       max_treedepth = 20)
+simulated_individuals <- 1e6
+
+#Extract data for Stan
+data_list_g2_beta = list(N = nrow(data_G2),
+                         n_t = data_G2$n_t,
+                         d_t = data_G2$d_t,
+                         x = data_G2$x1,
+                         
+                         R = dim(fine_df)[1],
+                         tau = fine_df$resistance,
+                         N_M = simulated_individuals)
+
+
+betbin_fit <- stan(file = 'R code/stan models/beta_binomial_fit_nets.stan',
+                   data = data_list_g2_beta,
+                   chains = n_chains,
+                   iter = tot_iter,
+                   warmup = burnin,
+                   init_r = 1e-2,
+                   control = betbin_options)
+
+# saveRDS(betbin_fit,"stan model outputs/ento_g2_beta_binomial_benefit_Jan2024data.RDS")
+
+#Investigate diagnostic plots
+if (diagnostic_plots) {
+  launch_shinystan(betbin_fit)
+}
+
+
+
+#Extract samples
+betbin_samples <- rstan::extract(betbin_fit)
+
+## overlay the original
+preds2_g2 = array(dim=c(100,4000))
+for(i in 1:4000){
+  preds2_g2[,i] = 1 / (1 + exp(-betbin_samples$alpha1[i] - betbin_samples$alpha2[i]*x))
+}
+
+median_G2_pred2 = 1 / (1 + exp(-quantile(betbin_samples$alpha1,0.5) - quantile(betbin_samples$alpha2,0.5)*x))
+upper_G2_pred2 = 1 / (1 + exp(-quantile(betbin_samples$alpha1,0.975) - quantile(betbin_samples$alpha2,0.975)*x))
+lower_G2_pred2 = 1 / (1 + exp(-quantile(betbin_samples$alpha1,0.025) - quantile(betbin_samples$alpha2,0.025)*x))
+
+lines(median_G2_pred2 ~ x)
+polygon(c(x,rev(x)),
+        c(lower_G2_pred2,rev(upper_G2_pred2)),col=adegenet::transp("aquamarine",0.4),border=NA)
+
+mean(betbin_samples$a1)
+mean(betbin_samples$a2)
+
+mean(betbin_samples$alpha1)
+mean(betbin_samples$alpha2)
+
+mt_samples <- betbin_samples$rho / simulated_individuals
+mt_sorted <- apply(mt_samples, 2, sort)
+N_samples <- dim(mt_sorted)[1]
+LB_ID <- round(N_samples*0.025)
+UB_ID <- round(N_samples*0.975)
+fine_df$mt_LB <- mt_sorted[LB_ID,]
+fine_df$mt_UB <- mt_sorted[UB_ID,]
+fine_df$mt_median <- apply(mt_samples, 2, median)
+
+# polygon(c(fine_df$resistance,rev(fine_df$resistance)),
+#         c(fine_df$mt_UB,rev(fine_df$mt_LB)),col=adegenet::transp("aquamarine",0.2),border=NA)
+lines(fine_df$mt_UB ~ fine_df$resistance,lwd=2,col="aquamarine3",lty=2)
+lines(fine_df$mt_LB ~ fine_df$resistance,lwd=2,col="aquamarine3",lty=2)
+
+lines(colMeans(betbin_samples$p) ~ fine_df$resistance)
+# lines(fine_df$mt_median ~ fine_df$resistance)
+
+
+
+data_list_PBO = list(N = nrow(data_PBO),
+                     n_t = data_PBO$n_t,
+                     d_t = data_PBO$d_t,
+                     x = data_PBO$x1,
+                     R = dim(fine_df)[1],
+                     tau = fine_df$resistance,
+                     N_M = simulated_individuals)
+
+
+betbin_fit2 <- stan(file = 'R code/stan models/beta_binomial_fit_nets.stan',
+                   data = data_list_PBO,
+                   chains = n_chains,
+                   iter = tot_iter,
+                   warmup = burnin,
+                   init_r = 1e-2,
+                   control = betbin_options)
+
+# saveRDS(betbin_fit,"stan model outputs/ento_pbo_beta_binomial_benefit_Jan2024data.RDS")
+
+#Extract samples
+betbin_samples2 <- rstan::extract(betbin_fit2)
+
+## overlay the original
+preds2_pbo = array(dim=c(100,4000))
+for(i in 1:4000){
+  preds2_pbo[,i] = 1 / (1 + exp(-betbin_samples2$alpha1[i] - betbin_samples2$alpha2[i]*x))
+}
+
+median_pbo_pred2 = 1 / (1 + exp(-quantile(betbin_samples2$alpha1,0.5) - quantile(betbin_samples2$alpha2,0.5)*x))
+upper_pbo_pred2 = 1 / (1 + exp(-quantile(betbin_samples2$alpha1,0.975) - quantile(betbin_samples2$alpha2,0.975)*x))
+lower_pbo_pred2 = 1 / (1 + exp(-quantile(betbin_samples2$alpha1,0.025) - quantile(betbin_samples2$alpha2,0.025)*x))
+
+lines(median_pbo_pred2 ~ x)
+polygon(c(x,rev(x)),
+        c(lower_pbo_pred2,rev(upper_pbo_pred2)),col=adegenet::transp("purple",0.4),border=NA)
+
+mean(betbin_samples2$a1)
+mean(betbin_samples2$a2)
+
+mean(betbin_samples2$alpha1)
+mean(betbin_samples2$alpha2)
+
+mt_samples2 <- betbin_samples2$rho / simulated_individuals
+mt_sorted2 <- apply(mt_samples2, 2, sort)
+N_samples2 <- dim(mt_sorted2)[1]
+LB_ID <- round(N_samples2*0.025)
+UB_ID <- round(N_samples2*0.975)
+fine_df$mt_LB2 <- mt_sorted2[LB_ID,]
+fine_df$mt_UB2 <- mt_sorted2[UB_ID,]
+fine_df$mt_median2 <- apply(mt_samples2, 2, median)
+
+# polygon(c(fine_df$resistance,rev(fine_df$resistance)),
+#         c(fine_df$mt_UB,rev(fine_df$mt_LB)),col=adegenet::transp("purple",0.4),border=NA)
+lines(fine_df$mt_UB2 ~ fine_df$resistance,lwd=2,col="purple",lty=2)
+lines(fine_df$mt_LB2 ~ fine_df$resistance,lwd=2,col="purple",lty=2)
+
+lines(colMeans(betbin_samples$p) ~ fine_df$resistance)
