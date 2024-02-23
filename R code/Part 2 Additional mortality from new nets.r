@@ -107,11 +107,11 @@ g2_dat$x = g2_dat$n_dead_72h_PYRNET/g2_dat$n_total_PYRNET
 g2_dat$prop_killed_g2 = g2_dat$n_dead_72h/g2_dat$n_total
 points(g2_dat$prop_killed_g2[g2_dat$data_visible == 1] ~ 
          g2_dat$x[g2_dat$data_visible == 1],
-       cex=1.6,pch=19,col="aquamarine3")
-polygon(c(x,rev(x)),c(upper_G2_pred,rev(lower_G2_pred)),col=adegenet::transp("aquamarine3",0.4),border=NA)
+       cex=1.6,pch=19)#,col="aquamarine3")
+polygon(c(x,rev(x)),c(upper_G2_pred,rev(lower_G2_pred)),col=adegenet::transp("darkgreen",0.4),border=NA)
 
 
-lines(median_G2_pred ~ x,col="aquamarine4",lwd=2,lty=1)
+lines(median_G2_pred ~ x,col="darkgreen",lwd=2,lty=1)
 
 
 abline(0,1,lty=2,col="blue")
@@ -280,6 +280,10 @@ fine_df$mt_LB <- mt_sorted[LB_ID,]
 fine_df$mt_UB <- mt_sorted[UB_ID,]
 fine_df$mt_median <- apply(mt_samples, 2, median)
 
+for(i in 1:nrow(mt_samples)){
+  points(mt_samples[i,] ~ fine_df$resistance,col = adegenet::transp("aquamarine",0.3))
+}
+
 # polygon(c(fine_df$resistance,rev(fine_df$resistance)),
 #         c(fine_df$mt_UB,rev(fine_df$mt_LB)),col=adegenet::transp("aquamarine",0.2),border=NA)
 lines(fine_df$mt_UB ~ fine_df$resistance,lwd=2,col="aquamarine3",lty=2)
@@ -307,7 +311,7 @@ betbin_fit2 <- stan(file = 'R code/stan models/beta_binomial_fit_nets.stan',
                    init_r = 1e-2,
                    control = betbin_options)
 
-# saveRDS(betbin_fit,"stan model outputs/ento_pbo_beta_binomial_benefit_Jan2024data.RDS")
+# saveRDS(betbin_fit2,"stan model outputs/ento_pbo_beta_binomial_benefit_Jan2024data.RDS")
 
 #Extract samples
 betbin_samples2 <- rstan::extract(betbin_fit2)
