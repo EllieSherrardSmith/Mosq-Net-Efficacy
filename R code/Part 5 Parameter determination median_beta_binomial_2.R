@@ -38,6 +38,7 @@ data_picker = sample(1:4000,size = 1000,replace=TRUE)
 # Global set
 
 ll_1 = readRDS("stan model outputs/log_logistic_fit.rds")
+# ll_1 = readRDS("stan model outputs/log_logistic_fit_origcheck.RDS")
 LL_fit <- rstan::extract(ll_1, permuted = TRUE)
 
 #function shape:
@@ -107,7 +108,7 @@ for(i in 1:1334){
   
   new_count_LO = round(100*(hut_mort_LLPBOnew$fit-1.96*hut_mort_LLPBOnew$se.fit),0)
   new_count_inverse_LO = 100 - new_count_LO
-
+  
   new_count_UP = round(100*(hut_mort_LLPBOnew$fit+1.96*hut_mort_LLPBOnew$se.fit),0)
   new_count_inverse_UP = 100 - new_count_UP
   
@@ -121,17 +122,17 @@ for(i in 1:1334){
   role.fitted2 <- predict(glm_2, se.fit = TRUE, type = "response")
   a1_test[i] = summary(glm_2)$coeff[1,1]
   a2_test[i] = summary(glm_2)$coeff[2,1]
-
+  
   new_count_rLO = ifelse(new_count_LO > 100,100,
-                       ifelse(new_count_LO < 0, 0,new_count_LO))
+                         ifelse(new_count_LO < 0, 0,new_count_LO))
   new_count_inverse_rLO = 100 - new_count_rLO
-
+  
   new_count_rUP = ifelse(new_count_UP > 100,100,
                          ifelse(new_count_UP < 0, 0,new_count_UP))
   new_count_inverse_rUP = 100 - new_count_rUP
   
   estPBOL <- cbind(new_count_rLO,
-                  new_count_inverse_rLO) ~ seq(0,1,length=101) 
+                   new_count_inverse_rLO) ~ seq(0,1,length=101) 
   glm_2L <- glm(estPBOL, family = binomial())
   role.fitted2L <- predict(glm_2L, se.fit = TRUE, type = "response")
   a1_testLO[i] = summary(glm_2L)$coeff[1,1]
@@ -158,8 +159,8 @@ for(i in sample(1:4000,40,replace = FALSE)){
                                                    alp2 = fitbene_2[i])
   
   hut_mort_LLPBOnew <- f_LOG_logistic_with_benefit(mort = hut_mort_LL,
-                                                        alp1 = fitbene_1betabin[i],
-                                                        alp2 = fitbene_2betabin[i])
+                                                   alp1 = fitbene_1betabin[i],
+                                                   alp2 = fitbene_2betabin[i])
   lines(hut_mort_LLPBOnew ~ seq(0,1,length=101),col = adegenet::transp("blue",0.4))
   lines(hut_mort_LLPBOold ~ seq(0,1,length=101),col = adegenet::transp("purple",0.4))
 }
@@ -203,7 +204,7 @@ for(i in 1:1334){
   new_count_inverse_r = 100 - new_count_r
   
   estPP <- cbind(new_count_r,
-                  new_count_inverse_r) ~ seq(0,1,length=101) 
+                 new_count_inverse_r) ~ seq(0,1,length=101) 
   glm_2 <- glm(estPP, family = binomial())
   role.fitted2 <- predict(glm_2, se.fit = TRUE, type = "response")
   a1_test[i] = summary(glm_2)$coeff[1,1]
@@ -218,14 +219,14 @@ for(i in 1:1334){
   new_count_inverse_rUP = 100 - new_count_rUP
   
   estPPL <- cbind(new_count_rLO,
-                   new_count_inverse_rLO) ~ seq(0,1,length=101) 
+                  new_count_inverse_rLO) ~ seq(0,1,length=101) 
   glm_2L <- glm(estPPL, family = binomial())
   role.fitted2L <- predict(glm_2L, se.fit = TRUE, type = "response")
   a1_testLO[i] = summary(glm_2L)$coeff[1,1]
   a2_testLO[i] = summary(glm_2L)$coeff[2,1]
   
   estPPU <- cbind(new_count_rUP,
-                   new_count_inverse_rUP) ~ seq(0,1,length=101) 
+                  new_count_inverse_rUP) ~ seq(0,1,length=101) 
   glm_2U <- glm(estPPU, family = binomial())
   role.fitted2U <- predict(glm_2U, se.fit = TRUE, type = "response")
   a1_testUP[i] = summary(glm_2U)$coeff[1,1]
@@ -238,12 +239,12 @@ fitbene_2a_betabin <- c(a2_test,a2_testLO,a2_testUP)
 hut_mort_LLPPnew = hut_mort_LLPPold = expand.grid(mort = seq(0,1,length=101))
 for(i in sample(1:4000,40,replace = FALSE)){
   hut_mort_LLPPold <- f_LOG_logistic_with_benefit(mort = hut_mort_LL,
-                                                   alp1 = fitbene_1a[i],
-                                                   alp2 = fitbene_2a[i])
+                                                  alp1 = fitbene_1a[i],
+                                                  alp2 = fitbene_2a[i])
   
   hut_mort_LLPPnew <- f_LOG_logistic_with_benefit(mort = hut_mort_LL,
-                                                   alp1 = fitbene_1a_betabin[i],
-                                                   alp2 = fitbene_2a_betabin[i])
+                                                  alp1 = fitbene_1a_betabin[i],
+                                                  alp2 = fitbene_2a_betabin[i])
   lines(hut_mort_LLPPnew ~ seq(0,1,length=101),col = adegenet::transp("darkgreen",0.4))
   lines(hut_mort_LLPPold ~ seq(0,1,length=101),col = adegenet::transp("aquamarine",0.4))
 }
@@ -366,7 +367,7 @@ resistance_ITN_default_params_2_f = function(product,
   #this will determine what the mortality is in the hut trial
   mort_huta = if(product==0) hut_mort_LL else if(product==1) hut_mort_LLPBOtemp else if(product==2) hut_mort_LLpptemp 
   mort_hut = mort_huta
-
+  
   
   hut_surv = 1 - mort_hut
   # ff, ff1, and ff2 all match up for the associations for net det and fed
@@ -394,7 +395,7 @@ resistance_ITN_default_params_2_f = function(product,
   
   ## This is association with hut survival
   rep_hut = (1 - suc_hut - mort_hut)
-
+  
   xx = data.frame(hut_surv,mort_hut,suc_hut,rep_hut,det_hut)
   ## Combine to estimate the 3 key probable outcomes of feeding attempts
   ## Here we adjust for those mosquitoes not entering treated huts (determined by deterrence)
@@ -422,19 +423,20 @@ resistance_ITN_default_params_2_f = function(product,
   ## Repeat these to determin the maximum effect which combine to help determine ITN half life
   ## We will stick to pyr-params for half life and update in 2023 once new data are available
   mort_maxA   =  if(product == 0) f_LOG_logistic(x = 0,#** this is surv i.e. mort max when surv =0
-                                param_b, param_a) else if(product == 1) f_LOG_logistic_with_benefit(mort = hut_mort_LL, 
-                                                                                                    alp1 = fitbene_1[data_picker_rand],
-                                                                                                    alp2 = fitbene_2[data_picker_rand]) else if(product == 2) f_LOG_logistic_with_benefit(mort = hut_mort_LL,#seq(0,1,length=101), 
-                                                                                                                                                                                         alp1 = fitbene_1a[data_picker_rand],
-                                                                                                                                                                                         alp2 = fitbene_2a[data_picker_rand])
+                                                 param_b, param_a) else if(product == 1) f_LOG_logistic_with_benefit(mort = hut_mort_LL, 
+                                                                                                                     alp1 = fitbene_1[data_picker_rand],
+                                                                                                                     alp2 = fitbene_2[data_picker_rand]) else if(product == 2) f_LOG_logistic_with_benefit(mort = hut_mort_LL,#seq(0,1,length=101), 
+                                                                                                                                                                                                           alp1 = fitbene_1a[data_picker_rand],
+                                                                                                                                                                                                           alp2 = fitbene_2a[data_picker_rand])
   
   
   
   mort_max = max(mort_maxA)
   
   #Decay in insecticide pyrethroid-only net		
-  mup =	2.66157
-  rhop =-4.05578 #NEW -2.581591 ###hlf_rho# #rho_p ##  sample(test$b,size=1)	##array(c(rep(-3.007,3),rep(-3.74,3),rep(-2.295,3)),c(3,3)) ## ... gam.medians[10]
+  # p = -2.36 rhop = -3.05 ## with binomial fits... 
+  mup =	-2.36  #2.66157
+  rhop = -3.05 #-4.05578 #NEW -2.581591 ###hlf_rho# #rho_p ##  sample(test$b,size=1)	##array(c(rep(-3.007,3),rep(-3.74,3),rep(-2.295,3)),c(3,3)) ## ... gam.medians[10]
   net_halflife=2.64
   
   #{halflife}
@@ -462,6 +464,7 @@ resistance_ITN_default_params_2_f = function(product,
   ## Print out these estimates to a data.frame as the function output
   uncertainty_resistance_params_nets = data.frame(ERG_d_ITN0,ERG_r_ITN0,itn_half_life,
                                                   itn_half_life_min,itn_half_life_max,
+                                                  wash_decay_rate,
                                                   det_hut=xx$det_hut,suc_hut=xx$suc_hut,mort_hut=xx$mort_hut,rep_hut=xx$rep_hut,
                                                   n1n0,kp1,lp1,jp1,
                                                   bioassay_surv = seq(0,1,length=101))
@@ -474,16 +477,33 @@ test = resistance_ITN_default_params_2_f(product = 0, ## pyrethroid only nets
 head(test)
 tail(test)
 
-test = resistance_ITN_default_params_2_f(product = 1, ## pyrethroid PBO nets 
+test2 = resistance_ITN_default_params_2_f(product = 1, ## pyrethroid PBO nets 
                                          data_picker_rand = 45) ## any number from 1 to 1000
-head(test)
-tail(test)
+summary(test2)
+tail(test2)
 
 
-test = resistance_ITN_default_params_2_f(product = 2, ## PYRETHROID pyrrole LLIN 
+test3 = resistance_ITN_default_params_2_f(product = 2, ## PYRETHROID pyrrole LLIN 
                                          data_picker_rand = 45) ## any number from 1 to 1000
-head(test)
-tail(test)
+head(test3)
+tail(test3)
+
+
+plot(test$kp1 ~ test$bioassay_surv,
+     ylab = "kp",xlab = "Resistance", col="blue",lwd=2,ylim = c(0,0.3))
+lines(test2$kp1 ~ test2$bioassay_surv,col = "purple",lwd=2)
+lines(test3$kp1 ~ test3$bioassay_surv,col = "aquamarine2",lwd=2)
+
+plot(test$lp1 ~ test$bioassay_surv,
+     ylab = "lp",xlab = "Resistance", col="blue",lwd=2,ylim = c(0,1))
+lines(test2$lp1 ~ test2$bioassay_surv,col = "purple",lwd=2)
+lines(test3$lp1 ~ test3$bioassay_surv,col = "aquamarine2",lwd=2)
+
+plot(test$jp1 ~ test$bioassay_surv,
+     ylab = "jp",xlab = "Resistance", col="blue",lwd=2,ylim = c(0,1))
+lines(test2$jp1 ~ test2$bioassay_surv,col = "purple",lwd=2)
+lines(test3$jp1 ~ test3$bioassay_surv,col = "aquamarine2",lwd=2)
+
 ########################
 ## To draw the comparison plots
 
@@ -542,7 +562,7 @@ for(i in sample(1:1000,size=8,replace=FALSE)){
              type_of_net = "Pyrethroid-only nets") ## "name of net type"
   print(i)  
 }
-  
+
 
 for(i in sample(1:1000,size=8,replace=FALSE)){
   rand_draws(product = 1,##0 for pyrethroid only, 1 for PBO, 2 for G2, 3 for G2 without new data
@@ -615,10 +635,14 @@ for(j in 1:nrow(test)){
 }
 
 pyrethroidPBONets = data.frame(dn0_lo10 = dn0[,1],dn0_med = dn0[,2],dn0_up90 = dn0[,3],
-                                rn0_lo10 = rn0[,1],rn0_med = rn0[,2],rn0_up90 = rn0[,3],
-                                gamman_lo10 = gamman[,1],gamman_med = gamman[,2],gamman_up90 = gamman[,3])
+                               rn0_lo10 = rn0[,1],rn0_med = rn0[,2],rn0_up90 = rn0[,3],
+                               gamman_lo10 = gamman[,1],gamman_med = gamman[,2],gamman_up90 = gamman[,3])
 pyrethroidPBONets$bioassay_mortality = seq(1,0,length=101)
 head(pyrethroidPBONets)
+par(mfrow=c(1,1))
+hist(pyrethroidOnlyNets$dn0_med,main="pyrrole vs PBO vs Standard",xlim = c(0,1),col=adegenet::transp("blue",0.6),
+     xlab = "dn0 parameters ranges",ylim = c(0,80))
+hist(pyrethroidPBONets$dn0_med,col=adegenet::transp("purple",0.4),add=T)
 
 
 ## pyrethroid-pyrrole
@@ -651,6 +675,9 @@ ppNets = data.frame(dn0_lo10 = dn0[,1],dn0_med = dn0[,2],dn0_up90 = dn0[,3],
 ppNets$bioassay_mortality = seq(1,0,length=101)
 head(ppNets)
 tail(ppNets)
+
+hist(ppNets$dn0_med,col=adegenet::transp("aquamarine2",0.4),add=T)
+
 
 write.csv(pyrethroidOnlyNets,"parameters/loglogistic_beta_binomial_pyrethroid_only_nets.csv")
 write.csv(pyrethroidPBONets,"parameters/loglogistic_beta_binomial_pyrethroid_pbo_nets.csv")

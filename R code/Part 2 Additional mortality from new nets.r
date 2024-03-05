@@ -284,6 +284,12 @@ for(i in 1:nrow(mt_samples)){
   points(mt_samples[i,] ~ fine_df$resistance,col = adegenet::transp("aquamarine",0.3))
 }
 
+for(i in 1:40){
+  # lines(mt_samples[i,] ~ fine_df$resistance)
+  lines(c(1-mt_sorted[i,]) ~ fine_df$resistance, col="blue")
+  
+}
+
 # polygon(c(fine_df$resistance,rev(fine_df$resistance)),
 #         c(fine_df$mt_UB,rev(fine_df$mt_LB)),col=adegenet::transp("aquamarine",0.2),border=NA)
 lines(fine_df$mt_UB ~ fine_df$resistance,lwd=2,col="aquamarine3",lty=2)
