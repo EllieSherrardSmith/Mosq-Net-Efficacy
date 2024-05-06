@@ -1,0 +1,43 @@
+author,publishedDate,Trial  Code Database B,country,Orig_ID,net_name.washes,comparison,species,N_total_pyrethroid,N_dead_comb_pyrethroid,x,N_total_B,N_dead_comb_B,xx_B,Hut,plot_code,data_visible,washed
+Allossogbe et al,2017,3,Cove_Benin,7,PermaNet 3.0,PermaNet 2.0,An. gambiae s.l.,249,27,0.108433735,224,55,0.245535714,West,0,1,0
+Allossogbe et al,2017,3,Cove_Benin,7,Olyset Plus,Olyset Net,An. gambiae s.l.,371,25,0.067385445,317,27,0.085173502,West,0,1,0
+Corbel et al,2010,9,Malanville_Benin,14,PermaNet 3.0,PermaNet 2.0,An. gambiae s.s.,243,216,0.888888889,214,207,0.96728972,West,0,1,0
+Corbel et al,2010,9,Malanville_Benin,14,PermaNet 3.0,PermaNet 2.0,An. gambiae s.s.,195,138,0.707692308,210,147,0.7,West,0,1,1
+Corbel et al,2010,10,VDK_BurkinaFaso,15,PermaNet 3.0,PermaNet 2.0,An. gambiae s.s.,329,146,0.443768997,463,362,0.781857451,West,0,1,0
+Corbel et al,2010,10,VDK_BurkinaFaso,15,PermaNet 3.0,PermaNet 2.0,An. gambiae s.s.,788,238,0.302030457,724,357,0.493093923,West,0,1,1
+Corbel et al,2010,11,Pitoa_Cameroon,16,PermaNet 3.0,PermaNet 2.0,An. gambiae s.l.,105,87,0.828571429,146,137,0.938356164,West,0,1,0
+Corbel et al,2010,11,Pitoa_Cameroon,16,PermaNet 3.0,PermaNet 2.0,An. gambiae s.l.,310,175,0.564516129,163,127,0.779141104,West,0,1,1
+Ketoh et al,2018,14,Kolokope_Togo,20,PermaNet 3.0,Yorkool,An. gambiae s.l.,389,224,0.575835476,310,257,0.829032258,West,0,1,0
+Ketoh et al,2018,14,Kolokope_Togo,20,Olyset Plus,Yorkool,An. gambiae s.l.,389,224,0.575835476,304,215,0.707236842,West,0,1,0
+Ketoh et al,2018,14,Kolokope_Togo,20,PermaNet 3.0,Yorkool,An. gambiae s.l.,419,182,0.434367542,348,226,0.649425287,West,0,1,1
+Ketoh et al,2018,14,Kolokope_Togo,20,Olyset Plus,Yorkool,An. gambiae s.l.,419,182,0.434367542,356,206,0.578651685,West,0,1,1
+Koudou et al,2011,16,Yaokoffikro_Cotedivoire,23,PermaNet 3.0,PermaNet 2.0,An. gambiae s.s.,317,110,0.347003155,303,166,0.547854785,West,0,1,0
+Koudou et al,2011,16,Yaokoffikro_Cotedivoire,23,PermaNet 3.0,PermaNet 2.0,An. gambiae s.s.,281,107,0.380782918,313,100,0.319488818,West,0,1,1
+Kweka et al,2017,17,Mabogini_Tanzania,24,PermaNet 3.0,PermaNet 2.0,An. gambiae s.l.,10,6,0.6,16,8,0.5,East,0,1,0
+Kweka et al,2017,17,Mabogini_Tanzania,24,PermaNet 3.0,PermaNet 2.0,An. gambiae s.l.,16,6,0.375,15,5,0.333333333,East,0,1,1
+Mahande et al,2018,18,Magugu_Tanzania,25,PermaNet 3.0,DuraNet,An. gambiae s.l.,84,10,0.119047619,241,10,0.041493776,East,0,1,0
+Mahande et al,2018,18,Magugu_Tanzania,25,PermaNet 3.0,DuraNet,An. gambiae s.l.,257,11,0.042801556,169,10,0.059171598,East,0,1,1
+N'Guessan et al,2010,23,Akron_Benin,35,PermaNet 3.0,PermaNet 2.0,An. coluzzii,114,50,0.438596491,128,67,0.5234375,West,0,1,0
+N'Guessan et al,2010,23,Akron_Benin,35,PermaNet 3.0,PermaNet 2.0,An. coluzzii,103,50,0.485436893,155,48,0.309677419,West,0,1,1
+Pennetier et al,2013,36,Malanville_Benin,59,Olyset Plus,Olyset Net,An. gambiae s.l.,96,40,0.416666667,67,54,0.805970149,West,0,1,0
+Pennetier et al,2013,36,Malanville_Benin,59,Olyset Plus,Olyset Net,An. gambiae s.l.,124,45,0.362903226,101,68,0.673267327,West,0,1,1
+Toe et al,2018,37,VDK_BurkinaFaso,64,Olyset Plus,Olyset Net,An. gambiae s.l.,1458,454,0.31138546,1278,685,0.53599374,West,0,1,0
+Toe et al,2018,37,VDK_BurkinaFaso,64,PermaNet 3.0,PermaNet 2.0,An. gambiae s.l.,1075,384,0.357209302,657,414,0.630136986,West,0,1,0
+Toe et al,2018,38,Tengrela_BurkinaFaso,65,Olyset Plus,Olyset Net,An. gambiae s.l.,922,179,0.194143167,695,196,0.282014388,West,0,1,0
+Toe et al,2018,38,Tengrela_BurkinaFaso,65,PermaNet 3.0,PermaNet 2.0,An. gambiae s.l.,859,173,0.201396973,795,371,0.466666667,West,0,1,0
+Tungu et al,2010,39,An. gambiae s.s.,66,PermaNet 3.0,PermaNet 2.0,An. gambiae s.s.,574,548,0.954703833,425,407,0.957647059,East,0,1,0
+Tungu et al,2010,39,An. gambiae s.s.,66,PermaNet 3.0,PermaNet 2.0,An. gambiae s.s.,586,510,0.870307167,558,531,0.951612903,East,0,1,1
+Bayili K et al,2017,42,VDK_BurkinaFaso,73,DawaPlus 3.0,DawaPlus 2.0,An. coluzzii,146,22,0.150684932,146,32,0.219178082,West,0,1,0
+Bayili K et al,2017,42,VDK_BurkinaFaso,73,Dawaplus 4.0,DawaPlus 2.0,An. coluzzii,146,22,0.150684932,146,63,0.431506849,West,0,1,0
+Bayili K et al,2017,42,VDK_BurkinaFaso,73,DawaPlus 3.0,DawaPlus 2.0,An. coluzzii,146,24,0.164383562,146,26,0.178082192,West,0,1,1
+Bayili K et al,2017,42,VDK_BurkinaFaso,73,Dawaplus 4.0,DawaPlus 2.0,An. coluzzii,146,24,0.164383562,146,22,0.150684932,West,0,1,1
+Tungu P et al,2017,41,Muheza_Tanzania,74,DawaPlus 3.0,DawaPlus 2.0,An. funestus,146,26,0.178082192,146,39,0.267123288,West,0,1,0
+Tungu P et al,2017,41,Muheza_Tanzania,74,DawaPlus 4.0,DawaPlus 2.0,An. funestus,146,26,0.178082192,146,36,0.246575342,West,0,1,0
+Tungu P et al,2017,41,Muheza_Tanzania,74,DawaPlus 3.0,DawaPlus 2.0,An. funestus,146,19,0.130136986,146,28,0.191780822,West,0,1,1
+Tungu P et al,2017,41,Muheza_Tanzania,74,DawaPlus 4.0,DawaPlus 2.0,An. funestus,146,19,0.130136986,146,34,0.232876712,West,0,1,1
+N'Guessan R et al,2016,44,Mbe_Cotedivoire,75,Veeralin,MAGNet,An. gambiae s.l.,506,147,0.290513834,366,186,0.508196721,West,0,1,0
+N'Guessan R et al,2016,44,Mbe_Cotedivoire,75,Veeralin,MAGNet,An. gambiae s.l.,519,90,0.173410405,377,144,0.381962865,West,0,1,1
+Tungu PK et al,2012,55,Muheza_Tanzania,94,Olyset Plus,Olyset Net,An. gambiae s.s.,13,13,1,44,43,0.977272727,East,0,1,0
+Tungu PK et al,2012,55,Muheza_Tanzania,94,Olyset Plus,Olyset Net,An. gambiae s.s.,43,32,0.744186047,52,47,0.903846154,East,0,1,1
+Adeogun et al,2012,61,Nigeria_NewBussa,116,PermaNet 3.0,Olyset Net,An. gambiae s.s.,368,144,0.391304348,344,252,0.73255814,West,0,1,0
+Adeogun et al,2012,61,Nigeria_NewBussa,116,PermaNet 3.0,Olyset Net,An. gambiae s.s.,376,104,0.276595745,356,246,0.691011236,West,0,1,1

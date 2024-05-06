@@ -1,0 +1,12 @@
+author,publishedDate,Trial  Code Database B,id,Orig_ID,Mosquito_species,is_washed,N_total,N_72h_mort,N_dead_comb,x,id_B,Orig_ID_B,Insecticide_class_B,is_washed_B,N_total_B,N_72h_mort_B,N_dead_comb_B,xx_B
+Camara et al,2018,7,37,12,An. gambiae s.s.,0,255,59,59,0.231372549,40,12,pyrethroid + pyrrole,0,305,278,278,0.91147541
+Camara et al,2018,7,38,12,An. gambiae s.s.,1,348,83,83,0.238505747,41,12,pyrethroid + pyrrole,1,369,311,311,0.842818428
+N'Guessan et al,2016,28,142,40,An. gambiae s.l.,0,631,138,138,0.218700475,146,40,pyrethroid + pyrrole,0,697,467,467,0.670014347
+N'Guessan et al,2016,28,143,40,An. gambiae s.l.,1,799,NA,98,0.122653317,147,40,pyrethroid + pyrrole,1,616,420,420,0.681818182
+N'Guessan et al,2016,28,144,40,An. gambiae s.l.,1,950,145,145,0.152631579,148,40,pyrethroid + pyrrole,1,929,567,567,0.610333692
+Ngufor et al,2017,30,152,43,An. gambiae s.l.,0,175,45,45,0.257142857,153,43,pyrethroid + pyrrole,0,251,185,185,0.737051793
+Oxborough et al,2013,35,178,55,An. arabiensis,0,110,NA,55,0.5,180,55,pyrethroid + pyrrole,0,106,61,61,0.575471698
+Tungu P et al,2016,46,241,79,An. funestus,0,94,35,35,0.372340426,243,79,pyrethroid + pyrrole,0,63,38,38,0.603174603
+Tungu P et al,2016,46,242,79,An. funestus,1,97,33,33,0.340206186,244,79,pyrethroid + pyrrole,1,133,93,93,0.69924812
+Tungu P et al,2016,46,247,79,An. gambiae s.s.,0,5,NA,1,0.2,249,79,pyrethroid + pyrrole,0,7,7,7,1
+Tungu P et al,2016,46,248,79,An. gambiae s.s.,1,6,NA,2,0.333333333,250,79,pyrethroid + pyrrole,1,9,7,7,0.777777778
