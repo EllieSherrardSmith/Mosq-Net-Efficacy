@@ -98,4 +98,23 @@ median_ITN_params = function(which_ITNs,
           return(median_ITN_parameters)
 }
 
-median_ITN_params("all",)
+median_ITN_params("standard",0.5)
+
+### Tables for Supplementary Data for Lancet GH 2024 
+res = seq(0,1,0.01)
+pyr_only_ITN_parameters = 
+  pyr_PBO_ITN_parameters = 
+  pyr_pyrrole_ITN_parameters = data.frame(resistance = seq(0,1,0.01),
+                                     dn0 = rep(0,length(res)),
+                                     rn0 = rep(0,length(res)),
+                                     gamman = rep(0,length(res)))
+
+for(i in 1:length(res)){
+  pyr_only_ITN_parameters[i,2:4] = c(as.numeric(median_ITN_params("standard",res[i])[2:4]))  
+  pyr_PBO_ITN_parameters[i,2:4] = c(as.numeric(median_ITN_params("PBO",res[i])[2:4]))  
+  pyr_pyrrole_ITN_parameters[i,2:4] = c(as.numeric(median_ITN_params("pyrrole",res[i])[2:4]))  
+}
+write.csv(pyr_only_ITN_parameters,"~LancetGH Supplementary Data 2.csv")
+write.csv(pyr_PBO_ITN_parameters,"~LancetGH Supplementary Data 3.csv")
+write.csv(pyr_pyrrole_ITN_parameters,"~LancetGH Supplementary Data 4.csv")
+
