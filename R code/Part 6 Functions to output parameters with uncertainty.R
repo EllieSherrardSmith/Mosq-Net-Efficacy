@@ -118,3 +118,76 @@ write.csv(pyr_only_ITN_parameters,"~LancetGH Supplementary Data 2.csv")
 write.csv(pyr_PBO_ITN_parameters,"~LancetGH Supplementary Data 3.csv")
 write.csv(pyr_pyrrole_ITN_parameters,"~LancetGH Supplementary Data 4.csv")
 
+##############################################
+## Random draws for uncertainty range
+
+res = seq(0,1,0.01)
+draws = 50
+p1_dn0 = p1_rn0 = p1_gam = array(dim = c(length(res),draws))
+p2_dn0 = p2_rn0 = p2_gam = array(dim = c(length(res),draws))
+p3_dn0 = p3_rn0 = p3_gam = array(dim = c(length(res),draws))
+
+for(i in 1:length(res)){
+  p1_dn0[i,] = itn_standard_params(draws,res[i])[,1]
+  p1_rn0[i,] = itn_standard_params(draws,res[i])[,2]
+  p1_gam[i,] = itn_standard_params(draws,res[i])[,3]
+
+  p2_dn0[i,] = itn_pbo_params(draws,res[i])[,1]
+  p2_rn0[i,] = itn_pbo_params(draws,res[i])[,2]
+  p2_gam[i,] = itn_pbo_params(draws,res[i])[,3]
+
+  p3_dn0[i,] = itn_pyrrole_params(draws,res[i])[,1]
+  p3_rn0[i,] = itn_pyrrole_params(draws,res[i])[,2]
+  p3_gam[i,] = itn_pyrrole_params(draws,res[i])[,3]
+}
+
+p1_dn0a = p1_rn0a = p1_gama = array(dim = c(length(res),3))
+p2_dn0a = p2_rn0a = p2_gama = array(dim = c(length(res),3))
+p3_dn0a = p3_rn0a = p3_gama = array(dim = c(length(res),3))
+for(i in 1:length(res)){
+  p1_dn0a[i,] = as.numeric(quantile(p1_dn0[i,],c(0.025,0.5,0.975)))
+  p1_rn0a[i,] = as.numeric(quantile(p1_rn0[i,],c(0.025,0.5,0.975)))
+  p1_gama[i,] = as.numeric(quantile(p1_gam[i,],c(0.025,0.5,0.975)))
+
+  p2_dn0a[i,] = as.numeric(quantile(p2_dn0[i,],c(0.025,0.5,0.975)))
+  p2_rn0a[i,] = as.numeric(quantile(p2_rn0[i,],c(0.025,0.5,0.975)))
+  p2_gama[i,] = as.numeric(quantile(p2_gam[i,],c(0.025,0.5,0.975)))
+
+  p3_dn0a[i,] = as.numeric(quantile(p3_dn0[i,],c(0.025,0.5,0.975)))
+  p3_rn0a[i,] = as.numeric(quantile(p3_rn0[i,],c(0.025,0.5,0.975)))
+  p3_gama[i,] = as.numeric(quantile(p3_gam[i,],c(0.025,0.5,0.975)))
+}
+
+plot(p1_gama[,2] ~ p1_dn0a[,2],ylim = c(0,6),xlim=c(0,0.6),
+     ylab = "gamma_n",xlab = "dn0")
+points(p1_gama[,1] ~ p1_dn0a[,2],col="grey30",pch=19)
+points(p1_gama[,3] ~ p1_dn0a[,2],col="grey30",pch=19)
+
+points(p2_gama[,2] ~ p2_dn0a[,2],col="blue")
+points(p2_gama[,1] ~ p2_dn0a[,2],col="blue",pch=19)
+points(p2_gama[,3] ~ p2_dn0a[,2],col="blue",pch=19)
+
+points(p3_gama[,2] ~ p2_dn0a[,2],col="red")
+points(p3_gama[,1] ~ p3_dn0a[,2],col="red",pch=19)
+points(p3_gama[,3] ~ p3_dn0a[,2],col="red",pch=19)
+
+for(i in 1:nrow(p1_gama)){
+  segments(x0 = p1_dn0a[i,1], x1 = p1_dn0a[i,3],
+           y0 = p1_gama[i,2], y1 = p1_gama[i,2],col="grey")
+  
+  segments(x0 = p2_dn0a[i,1], x1 = p2_dn0a[i,3],
+           y0 = p2_gama[i,2], y1 = p2_gama[i,2],col="blue")
+  
+  segments(x0 = p3_dn0a[i,1], x1 = p3_dn0a[i,3],
+           y0 = p3_gama[i,2], y1 = p3_gama[i,2],col="red")
+
+  
+  segments(x0 = p1_dn0a[i,2], x1 = p1_dn0a[i,2],
+           y0 = p1_gama[i,1], y1 = p1_gama[i,3],col="grey")
+  
+  segments(x0 = p2_dn0a[i,2], x1 = p2_dn0a[i,2],
+           y0 = p2_gama[i,1], y1 = p2_gama[i,3],col="blue")
+  
+  segments(x0 = p3_dn0a[i,2], x1 = p3_dn0a[i,2],
+           y0 = p3_gama[i,1], y1 = p3_gama[i,3],col="red")
+}
